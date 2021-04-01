@@ -2,7 +2,7 @@
   "name": "pm2-webui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "event-stream": "^4.0.1",
-    "performance-now": "^2.1.0"
+    "koa": "^2.13.1",
+    "performance-now": "^2.1.0",
+    "pm2": "^4.5.5"
   }
 }

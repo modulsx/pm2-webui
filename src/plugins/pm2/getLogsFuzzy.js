@@ -46,14 +46,11 @@ var getLogsFuzzy = function (params) {
   })
 };
 
-async function main(){
+async function test(){
   console.time('Performance Fuzzy')
   const logs = await getLogsFuzzy({filePath: '/home/ubuntu/.pm2/logs/admin-service-out.log', page_number: 100, lines_per_page: 100, sort_order:'asc'})
   console.timeEnd('Performance Fuzzy')
   console.log('Output Lines : ',logs.length)
-  // logs.forEach(log => {
-  //   console.log(log)
-  // });
 }
 
-main()
+module.exports = getLogsFuzzy

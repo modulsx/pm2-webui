@@ -68,14 +68,11 @@ const getLogs = (params) => {
   })
 }
 
-async function main(){
+async function test(){
   console.time('Performance')
   const logs = await getLogs({filePath: '/home/ubuntu/.pm2/logs/admin-service-out.log', page_number: 200, lines_per_page: 100, sort_order:'desc'})
   console.timeEnd('Performance')
   console.log('Output Lines : ',logs.length)
-  // logs.forEach(log => {
-  //   console.log(log)
-  // });
 }
 
-main()
+module.exports = getLogs

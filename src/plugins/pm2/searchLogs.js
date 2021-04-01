@@ -31,4 +31,8 @@ const searchLogs = async (filePath, term, max_results = MAX_RESULTS) => {
       }),
     ); 
 }
-searchLogs('/home/ubuntu/.pm2/logs/admin-service-out.log', 'is_deleted: false')
+
+function test(){
+  // searchLogs('/home/ubuntu/.pm2/logs/admin-service-out.log', 'is_deleted: false')
+}
+module.exports  = searchLogs
