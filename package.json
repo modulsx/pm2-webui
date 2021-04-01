@@ -4,14 +4,21 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@koa/router": "^10.0.0",
+    "ansi-to-html": "^0.6.14",
+    "dotenv": "^8.2.0",
     "event-stream": "^4.0.1",
     "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-ejs": "^4.3.0",
+    "koa-static": "^5.0.0",
     "performance-now": "^2.1.0",
     "pm2": "^4.5.5"
   }

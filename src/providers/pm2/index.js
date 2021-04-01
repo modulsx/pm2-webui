@@ -1,6 +1,6 @@
 module.exports = {
     ...require('./api'),
-    ...require('./getLogs'),
+    ...require('./getAppLogs'),
     ...require('./getLogsFuzzy'),
     ...require('./searchLogs'),
 }

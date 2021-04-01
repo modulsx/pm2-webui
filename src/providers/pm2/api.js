@@ -17,6 +17,23 @@ function listApps(){
     })
 }
 
+function describeApp(process){
+    return new Promise((resolve, reject) => {
+        pm2.connect((err) => {
+            if (err) {
+                reject(err)
+            }
+            pm2.describe(process, (err, proc) => {
+                pm2.disconnect()
+                if (err) {
+                    reject(err)
+                }
+                resolve(proc)
+            })
+        })
+    })
+}
+
 function stopApp(process){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
@@ -70,6 +87,7 @@ function deleteApp(){
 
 module.exports = {
     listApps,
+    describeApp,
     stopApp,
     restartApp,
     deleteApp
