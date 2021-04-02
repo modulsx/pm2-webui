@@ -2,7 +2,7 @@
 var fs = require('fs');
 var es = require('event-stream');
 
-const DEFAULT_LINES_PER_PAGE = 30;
+const DEFAULT_LINES_PER_PAGE = 50;
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_SORT_ORDER = 'desc';
 
@@ -26,6 +26,7 @@ function countFileLines(file_path){
 const getAppLogs = (params) => {
   return new Promise(async (resolve, reject) => {
     let { file_path, sort_order=DEFAULT_SORT_ORDER, page_number=DEFAULT_PAGE_NUMBER, lines_per_page=DEFAULT_LINES_PER_PAGE} = params;
+    page_number = parseInt(page_number)
     if(page_number < 1){
       throw new Error('Page number should be greater or equal to 1')
     }
@@ -43,10 +44,7 @@ const getAppLogs = (params) => {
     const line_end = Math.min(total_lines, (line_start + lines_per_page) - 1)
     let line_current = 0;
     let lines_data = []
-    // console.log('Sort Order : ', sort_order)
-    // console.log('Total Lines : ', total_lines)
-    // console.log('Line Start : ', line_start)
-    // console.log('Line End : ', line_end)
+    console.log(line_start, line_end)
     const stream = fs
     .createReadStream(file_path)
     .pipe(es.split())
@@ -54,7 +52,7 @@ const getAppLogs = (params) => {
       es.mapSync(function(line) {
         line_current++;
         if(line_current >= line_start){
-          lines_data.push(line)
+          lines_data.push(`${line_current} : ${line}`)
         }
         if(line_current === line_end){
           stream.end();
@@ -62,7 +60,21 @@ const getAppLogs = (params) => {
       })
       .on('error', reject)
       .on('end', function() {
-        resolve(lines_data)
+        let page_order_data = {}
+        if(sort_order == 'asc'){
+          page_order_data.page_up = (page_number - 1)
+          page_order_data.page_down = page_number + 1
+        }
+        else{
+          page_order_data.page_up = page_number + 1
+          page_order_data.page_down = (page_number - 1)
+        }
+        resolve({
+          lines: lines_data,
+          ...page_order_data,
+          page_current: page_number,
+          total_pages: Math.ceil(total_lines/lines_per_page)
+        }) 
       }),
     ); 
   })
@@ -72,7 +84,7 @@ async function test(){
   console.time('Performance')
   const logs = await getAppLogs({file_path: '/home/ubuntu/.pm2/logs/admin-service-out.log', page_number: 200, lines_per_page: 100, sort_order:'desc'})
   console.timeEnd('Performance')
-  console.log('Output Lines : ',logs.length)
+  console.log('Output Lines : ',logs.lines.length)
 }
 
 module.exports = { getAppLogs }

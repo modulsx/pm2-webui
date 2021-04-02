@@ -33,7 +33,7 @@ render(app, {
 });
 
 router.get('/', async (ctx, next) => {
-    await ctx.redirect('/apps')
+    return ctx.redirect('/apps')
 })
 
 router.get('/apps', async (ctx, next) => {
@@ -48,7 +48,7 @@ router.get('/apps', async (ctx, next) => {
             pm_id: app.pm_id
         }
     })
-    await ctx.render('apps/index', {
+    return await ctx.render('apps/index', {
       apps
     });
 });
@@ -68,17 +68,51 @@ router.get('/apps/:appName', async (ctx, next) => {
             pm_out_log_path: apps[0].pm2_env.pm_out_log_path,
             pm_err_log_path: apps[0].pm2_env.pm_err_log_path,
         }
-        let logs = await getAppLogs({file_path: app.pm_out_log_path})
-        logs = logs.map(log => {
-            return  `<div>${ansiConvert.toHtml(log)}</div>`
-        })
-        await ctx.render('apps/app', {
+        let stdout = await getAppLogs({file_path: app.pm_out_log_path})
+        let stderr = await getAppLogs({file_path: app.pm_err_log_path})
+        stdout.lines = stdout.lines.map(log => {
+            return  ansiConvert.toHtml(log)
+        }).join('<br/>')
+        stderr.lines = stderr.lines.map(log => {
+            return  ansiConvert.toHtml(log)
+        }).join('<br/>')
+        const logs = {
+            stdout,
+            stderr
+        }
+        return await ctx.render('apps/app', {
             app,
-            logs: logs.join('\n')
+            logs
         });
     }
-    else{
-        await ctx.redirect('/apps')
+    return ctx.redirect('/apps')
+});
+
+router.get('/api/apps/:appName/logs/:logType/:pageNumber', async (ctx, next) => {
+    let { appName, logType, pageNumber} = ctx.params
+    if(logType !== 'stdout' && logType !== 'stderr'){
+        return ctx.body = {
+            'error': 'Log Type must be stdout or stderr'
+        }
+    }
+    let apps =  await describeApp(appName)
+    if(Array.isArray(apps) && apps.length > 0){
+        let logs = []
+        if(logType === 'stdout'){
+            logs = await getAppLogs({file_path: apps[0].pm2_env.pm_out_log_path, page_number: pageNumber})
+        }
+        else{
+            logs = await getAppLogs({file_path: apps[0].pm2_env.pm_err_log_path, page_number: pageNumber})
+        }
+        logs.lines = logs.lines.map(log => {
+            return  ansiConvert.toHtml(log)
+        }).join('<br/>')
+        return ctx.body = {
+            logs
+        };
+    }
+    return ctx.body = {
+        'error': 'App Not Found'
     }
 });
 
