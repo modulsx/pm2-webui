@@ -130,6 +130,12 @@
                   <path d="M9 20v-8h-3.586a1 1 0 0 1 -.707 -1.707l6.586 -6.586a1 1 0 0 1 1.414 0l6.586 6.586a1 1 0 0 1 -.707 1.707h-3.586v8a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
                </svg>
               </button>
+              <!-- <button class="btn btn-icon shadow-none" style="border:none !important;" onclick="pageDown()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M15 4v8h3.586a1 1 0 0 1 .707 1.707l-6.586 6.586a1 1 0 0 1 -1.414 0l-6.586 -6.586a1 1 0 0 1 .707 -1.707h3.586v-8a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1z"></path>
+               </svg>
+              </button> -->
               <button class="btn btn-icon shadow-none" style="border:none !important;" onclick="refreshLogs()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -137,12 +143,6 @@
                   <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
                </svg>
               </button>
-              <!-- <button class="btn btn-icon shadow-none" style="border:none !important;" onclick="pageDown()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M15 4v8h3.586a1 1 0 0 1 .707 1.707l-6.586 6.586a1 1 0 0 1 -1.414 0l-6.586 -6.586a1 1 0 0 1 .707 -1.707h3.586v-8a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1z"></path>
-               </svg>
-              </button> -->
             </li>
           </ul>
           <div class="card-body">
@@ -165,17 +165,16 @@
   function getActiveTabData(page_direction){
     let data = {};
     data.log_type = $('.tab-pane.active').attr('id')
-    data.total_pages = $('.tab-pane.active').attr('data-total-pages')
-    data.page_current = $('.tab-pane.active').attr('data-page-current')
+    data.total_pages = parseInt($('.tab-pane.active').attr('data-total-pages'))
+    data.page_current = parseInt($('.tab-pane.active').attr('data-page-current'))
     if(page_direction){
-      data.page_number = $('.tab-pane.active').attr(`data-page-${page_direction}`)
+      data.page_number = parseInt($('.tab-pane.active').attr(`data-page-${page_direction}`))
     }
     return data
   }
   
 
   function fetchLogs(log_type, page_number){
-    console.log(log_type, page_number)
     return new Promise((resolve, reject)=>{
       fetch(`/api/apps/<%= app.name %>/logs/${log_type}/${page_number}`)
       .then((response)=>{
@@ -201,7 +200,7 @@
       $(`#${log_type} code`).html(logs.lines)
     }
     else if(action === 'append'){
-      $(`#${log_type} code`).append(logs.lines)
+      $(`#${log_type} code`).append('<br/>' + logs.lines)
     }
     else{
       $(`#${log_type} code`).prepend(logs.lines + '<br/>')
@@ -216,18 +215,17 @@
 
   async function pageUp(){
     const { log_type, page_number, page_current, total_pages } = getActiveTabData('up')
-    console.log(page_current, total_pages)
     if(page_current < total_pages){
       const logs  = await fetchLogs(log_type, page_number)
       setLogsData(log_type, logs, 'prepend')
     }
   }
 
-  // async function pageDown(){
-  //   const { log_type, page_number } = getActiveTabData('down')
-  //   if(page_current < total_pages){
-  //     const logs  = await fetchLogs(log_type, page_number)
-  //     setLogsData(log_type, logs, 'append')
-  //   }
-  // }
+  async function pageDown(){
+    const { log_type, page_number } = getActiveTabData('down')
+    if(page_current < total_pages){
+      const logs  = await fetchLogs(log_type, page_number)
+      setLogsData(log_type, logs, 'append')
+    }
+  }
 </script>

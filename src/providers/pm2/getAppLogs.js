@@ -34,29 +34,35 @@ const getAppLogs = (params) => {
       throw new Error('Lines per page should be greater or equal to 1')
     }
     const total_lines = await countFileLines(file_path) + 1
-    let line_start = 0;
+    let line_start = 1;
+    let line_end = 1;
     if(sort_order == 'asc'){
       line_start = Math.min(total_lines, ((page_number - 1) * lines_per_page) + 1)
+      line_end = Math.min(total_lines, (line_start + lines_per_page) - 1)
     }
     else{
-      line_start = Math.max(0, total_lines - (page_number * lines_per_page) + 1)
+      line_start = Math.max(1, total_lines - (page_number * lines_per_page) + 1)
+      if(line_start === 1){
+        line_end = total_lines % lines_per_page;
+      }
+      else{
+        line_end = Math.min(total_lines, (line_start + lines_per_page) - 1)
+      }
     }
-    const line_end = Math.min(total_lines, (line_start + lines_per_page) - 1)
-    let line_current = 0;
+    let line_current = 1;
     let lines_data = []
-    console.log(line_start, line_end)
     const stream = fs
     .createReadStream(file_path)
     .pipe(es.split())
     .pipe(
       es.mapSync(function(line) {
-        line_current++;
         if(line_current >= line_start){
           lines_data.push(`${line_current} : ${line}`)
         }
         if(line_current === line_end){
           stream.end();
         }
+        line_current++;
       })
       .on('error', reject)
       .on('end', function() {
