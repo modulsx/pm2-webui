@@ -9,7 +9,7 @@ npm install
 cp env.example .env
 npm start
 ```
-> Note : Please change SESSION_SECRET and APP_PASSWORD in .env file to something more secure and random
+> Note : Please change SESSION_SECRET and APP_PASSWORD in .env file to something more secure
 
 ##### SCREENSHOTS
 ![PM2 Webui Unlock](/src/public/assets/images/app/screenshots/unlock.png?raw=true "PM2 WebUI Unlock")
