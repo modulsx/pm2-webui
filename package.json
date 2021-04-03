@@ -8,8 +8,8 @@
     "start": "node ."
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Surya T",
+  "license": "MIT",
   "dependencies": {
     "@koa/router": "^10.0.0",
     "ansi-to-html": "^0.6.14",
@@ -23,5 +23,9 @@
     "koa2-ratelimit": "^0.9.0",
     "performance-now": "^2.1.0",
     "pm2": "^4.5.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/suryamodulus/pm2-webui"
   }
 }
