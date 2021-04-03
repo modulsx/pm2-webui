@@ -60,7 +60,7 @@
           </a>
           <div class="card-footer text-center">
             <% if(app.status === "online"){ %>
-              <button class="btn btn-sm btn-green" aria-label="Button">
+              <button class="btn btn-sm btn-green" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'reload')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
@@ -68,7 +68,7 @@
                </svg>
                Reload
               </button>
-              <button class="btn btn-sm btn-cyan" aria-label="Button">
+              <button class="btn btn-sm btn-cyan" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'restart')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>
@@ -80,7 +80,7 @@
                </svg>
                Restart
               </button>
-              <button class="btn btn-sm btn-danger" aria-label="Button">
+              <button class="btn btn-sm btn-danger" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'stop')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <circle cx="12" cy="12" r="9"></circle>
@@ -89,7 +89,7 @@
                Stop
               </button>
             <% } else{ %> 
-              <button class="btn btn-sm btn-cyan" aria-label="Button">
+              <button class="btn btn-sm btn-cyan" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'restart')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>

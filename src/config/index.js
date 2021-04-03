@@ -1,3 +1,10 @@
-module.exports = {
-    ...require('./server.config')
+require('dotenv').config()
+
+const config = {
+    HOST: process.env.HOST || '127.0.0.1',
+    PORT: process.env.PORT || 4343,
+    SESSION_SECRET: process.env.SESSION_SECRET || null,
+    APP_PASSWORD: process.env.APP_PASSWORD || null
 }
+
+module.exports = config;

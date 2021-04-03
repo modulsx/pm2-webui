@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row row-deck pt-4">
-      <div class="col-md-3 mb-4">
+      <div class="col-md-3 mb-4" style="max-height:200px">
         <div class="card">
           <div class="card-status-top bg-indigo"></div>
           <a href="/apps/<%= app.name %>" style="text-decoration: none; color: inherit;">
@@ -59,7 +59,7 @@
           </a>
           <div class="card-footer text-center">
             <% if(app.status === "online"){ %>
-              <button class="btn btn-sm btn-green" aria-label="Button">
+              <button class="btn btn-sm btn-green" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'reload')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
@@ -67,7 +67,7 @@
                 </svg>
                 Reload
               </button>
-              <button class="btn btn-sm btn-cyan" aria-label="Button">
+              <button class="btn btn-sm btn-cyan" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'restart')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>
@@ -79,7 +79,7 @@
                 </svg>
                 Restart
               </button>
-              <button class="btn btn-sm btn-danger" aria-label="Button">
+              <button class="btn btn-sm btn-danger" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'stop')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <circle cx="12" cy="12" r="9"></circle>
@@ -88,7 +88,7 @@
                 Stop
               </button>
             <% } else{ %> 
-              <button class="btn btn-sm btn-cyan" aria-label="Button">
+              <button class="btn btn-sm btn-cyan" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'restart')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>
@@ -174,21 +174,13 @@
   }
   
 
-  function fetchLogs(log_type, page_number){
-    return new Promise((resolve, reject)=>{
-      fetch(`/api/apps/<%= app.name %>/logs/${log_type}/${page_number}`)
-      .then((response)=>{
-        return response.json()
-      })
-      .then((data) => {
-        if(data && data.logs){
-          resolve(data.logs)
-        }
-        else{
-          reject(data.error)
-        }
-      })
-    })
+  async function fetchLogs(log_type, page_number){
+    const response = await fetch(`/api/apps/<%= app.name %>/logs/${log_type}/${page_number}`)
+    const data = await response.json()
+    if(data && data.logs){
+      return data.logs
+    }
+    return null
   }
 
   function setLogsData(log_type, logs, action){
@@ -210,14 +202,24 @@
   async function refreshLogs(){
     const { log_type } = getActiveTabData()
     const logs  = await fetchLogs(log_type, 1)
-    setLogsData(log_type, logs, 'refresh')
+    if(logs){
+      setLogsData(log_type, logs, 'refresh')
+    }
+    else{
+      console.log('Unable to fetch logs')
+    }
   }
 
   async function pageUp(){
     const { log_type, page_number, page_current, total_pages } = getActiveTabData('up')
     if(page_current < total_pages){
       const logs  = await fetchLogs(log_type, page_number)
-      setLogsData(log_type, logs, 'prepend')
+      if(logs) {
+        setLogsData(log_type, logs, 'prepend')
+      }
+      else{
+        console.log('Unable to fetch logs')
+      }
     }
   }
 
@@ -225,7 +227,12 @@
     const { log_type, page_number } = getActiveTabData('down')
     if(page_current < total_pages){
       const logs  = await fetchLogs(log_type, page_number)
-      setLogsData(log_type, logs, 'append')
+      if(logs) {
+        setLogsData(log_type, logs, 'append')
+      }
+      else{
+        console.log('Unable to fetch logs')
+      }
     }
   }
 </script>

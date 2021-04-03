@@ -34,6 +34,23 @@ function describeApp(process){
     })
 }
 
+function reloadApp(process){
+    return new Promise((resolve, reject) => {
+        pm2.connect((err) => {
+            if (err) {
+                reject(err)
+            }
+            pm2.reload(process, (err, proc) => {
+                pm2.disconnect()
+                if (err) {
+                    reject(err)
+                }
+                resolve(proc)
+            })
+        })
+    })
+}
+
 function stopApp(process){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
@@ -51,7 +68,7 @@ function stopApp(process){
     })
 }
 
-function restartApp(){
+function restartApp(process){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
             if (err) {
@@ -68,28 +85,11 @@ function restartApp(){
     })
 }
 
-function deleteApp(){
-    return new Promise((resolve, reject) => {
-        pm2.connect((err) => {
-            if (err) {
-                reject(err)
-            }
-            pm2.delete(process, (err, proc) => {
-                pm2.disconnect()
-                if (err) {
-                    reject(err)
-                }
-                resolve(proc)
-            })
-        })
-    })
-}
-
 module.exports = {
     listApps,
     describeApp,
+    reloadApp,
     stopApp,
-    restartApp,
-    deleteApp
+    restartApp
 }
 

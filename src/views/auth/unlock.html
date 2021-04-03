@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <title>PM2 - WebUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tabler/core@1.0.0-beta2/dist/js/tabler.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/core@1.0.0-beta2/dist/css/tabler.min.css">
+</head>
+<body>
+    <div class="container-tight py-4">
+    <div class="text-center mb-4">
+      <a href="."><img src="./static/logo.svg" height="36" alt=""></a>
+    </div>
+    <form class="card card-md" action="/login" method="POST" autocomplete="off">
+      <div class="card-body text-center">
+        <div class="mb-4">
+          <h2 class="card-title">App Locked</h2>
+          <p class="text-muted">Please enter your password to unlock your App</p>
+        </div>
+        <div class="mb-4">
+          <span class="avatar avatar-xl mb-3" style="background-image: url(/assets/images/app/user.svg)"></span>
+          <h3>System Admin</h3>
+        </div>
+        <div class="mb-4">
+          <input name="password" type="password" class="form-control text-center" placeholder="App Password">
+        </div>
+        <div class="mb-4">
+          <button class="btn btn-primary w-100" type="submit">
+            <!-- Download SVG icon from http://tabler-icons.io/i/lock-open -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="5" y="11" width="14" height="10" rx="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M8 11v-5a4 4 0 0 1 8 0"></path></svg>
+            Unlock
+          </button>
+        </div>
+        <div>
+          <span class="small text-muted">Developed by Surya T</span>
+          <a href="//github.com/suryamodulus/pm2-webui" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </form>
+    </div>
+</body>
+</html>
