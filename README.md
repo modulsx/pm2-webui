@@ -1,6 +1,12 @@
 ### PM2 WebUI
 Opensource Alternative to PM2 Plus
 
+##### Features
+- Secure Login :white_check_mark:
+- App Management :white_check_mark:
+- Log Viewer :white_check_mark:
+- Responsive UI :white_check_mark:
+
 ##### USAGE
 ```
 git clone https://github.com/suryamodulus/pm2-webui
