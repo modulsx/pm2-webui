@@ -9,4 +9,4 @@ npm start
 ```
 
 ##### LICENSE
-MIT - Copyright (c) Surya T.
+MIT - Copyright (c) Surya T
