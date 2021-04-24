@@ -1,8 +1,11 @@
 const config = require('../config')
 const RateLimit = require('koa2-ratelimit').RateLimit;
 const router = require('@koa/router')();
-const { listApps, describeApp, getAppLogs, reloadApp, restartApp, stopApp } = require('../providers/pm2')
-const { bytesToSize, timeSince } = require('../helpers/ux.helper')
+const { listApps, describeApp, reloadApp, restartApp, stopApp } = require('../providers/pm2/api')
+const { bytesToSize, timeSince } = require('../providers/pm2/ux.helper')
+const { readLogs } = require('../utils/logs')
+const { getCurrentGitBranch, getCurrentGitCommit } = require('../utils/git.util')
+const { getEnvFileContent } = require('../utils/env.util')
 const isAuthenticated = require('../middlewares/auth')
 const AnsiConverter = require('ansi-to-html');
 const ansiConvert = new AnsiConverter();
@@ -61,9 +64,12 @@ router.get('/apps/:appName', isAuthenticated, async (ctx) => {
             pm_id: apps[0].pm_id, 
             pm_out_log_path: apps[0].pm2_env.pm_out_log_path,
             pm_err_log_path: apps[0].pm2_env.pm_err_log_path,
+            git_branch: await getCurrentGitBranch(apps[0].pm2_env.pm_cwd),
+            git_commit: await getCurrentGitCommit(apps[0].pm2_env.pm_cwd),
+            env_file: await getEnvFileContent(apps[0].pm2_env.pm_cwd)
         }
-        let stdout = await getAppLogs({file_path: app.pm_out_log_path})
-        let stderr = await getAppLogs({file_path: app.pm_err_log_path})
+        let stdout = await readLogs({file_path: app.pm_out_log_path})
+        let stderr = await readLogs({file_path: app.pm_err_log_path})
         stdout.lines = stdout.lines.map(log => {
             return  ansiConvert.toHtml(log)
         }).join('<br/>')
@@ -93,10 +99,10 @@ router.get('/api/apps/:appName/logs/:logType/:pageNumber', isAuthenticated, asyn
     if(Array.isArray(apps) && apps.length > 0){
         let logs = []
         if(logType === 'stdout'){
-            logs = await getAppLogs({file_path: apps[0].pm2_env.pm_out_log_path, page_number: pageNumber})
+            logs = await readLogs({file_path: apps[0].pm2_env.pm_out_log_path, page_number: pageNumber})
         }
         else{
-            logs = await getAppLogs({file_path: apps[0].pm2_env.pm_err_log_path, page_number: pageNumber})
+            logs = await readLogs({file_path: apps[0].pm2_env.pm_err_log_path, page_number: pageNumber})
         }
         logs.lines = logs.lines.map(log => {
             return  ansiConvert.toHtml(log)

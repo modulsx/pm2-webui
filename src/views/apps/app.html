@@ -1,62 +1,100 @@
 <div class="container-fluid">
   <div class="row row-deck pt-4">
-      <div class="col-md-3 mb-4" style="max-height:200px">
+      <div class="col-md-3 mb-4" style="height:100%">
         <div class="card">
           <div class="card-status-top bg-indigo"></div>
-          <a href="/apps/<%= app.name %>" style="text-decoration: none; color: inherit;">
-            <div class="card-body">
-              <div class="card-title text-primary">
-                <strong>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-box" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline>
-                    <line x1="12" y1="12" x2="20" y2="7.5"></line>
-                    <line x1="12" y1="12" x2="12" y2="21"></line>
-                    <line x1="12" y1="12" x2="4" y2="7.5"></line>
-                  </svg>
-                  <%= app.name %>
-                </strong>
-                <% if(app.status === "online"){ %>
-                  <span class="badge bg-green-lt"><%= app.status %></span>
-                <% } else{ %>  
-                  <span class="badge bg-red-lt"><%= app.status %></span>
-                <% } %>
-              </div>
-              <h4 class="text-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-server" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <div class="card-body">
+            <div class="card-title text-primary">
+              <strong>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-box" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <rect x="3" y="4" width="18" height="8" rx="3"></rect>
-                  <rect x="3" y="12" width="18" height="8" rx="3"></rect>
-                  <line x1="7" y1="8" x2="7" y2="8.01"></line>
-                  <line x1="7" y1="16" x2="7" y2="16.01"></line>
+                  <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline>
+                  <line x1="12" y1="12" x2="20" y2="7.5"></line>
+                  <line x1="12" y1="12" x2="12" y2="21"></line>
+                  <line x1="12" y1="12" x2="4" y2="7.5"></line>
                 </svg>
-                CPU : <%= app.cpu %> %</h4>
-              <h4 class="text-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-analytics" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <rect x="3" y="4" width="18" height="12" rx="1"></rect>
-                  <path d="M7 20h10"></path>
-                  <path d="M9 16v4"></path>
-                  <path d="M15 16v4"></path>
-                  <path d="M9 12v-4"></path>
-                  <path d="M12 12v-1"></path>
-                  <path d="M15 12v-2"></path>
-                  <path d="M12 12v-1"></path>
-                </svg>
-                Memory : <%= app.memory %></h4>
-              <h4 class="text-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4"></path>
-                  <circle cx="18" cy="18" r="4"></circle>
-                  <path d="M15 3v4"></path>
-                  <path d="M7 3v4"></path>
-                  <path d="M3 11h16"></path>
-                  <path d="M18 16.496v1.504l1 1"></path>
-                </svg>
-                Uptime : <%= app.uptime %></h4>
+                <%= app.name %>
+              </strong>
+              <% if(app.status === "online"){ %>
+                <span class="badge bg-green-lt"><%= app.status %></span>
+                </a>
+              <% } else{ %>  
+                <span class="badge bg-red-lt"><%= app.status %></span>
+              <% } %>
             </div>
-          </a>
+            <h4 class="text-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-server" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <rect x="3" y="4" width="18" height="8" rx="3"></rect>
+                <rect x="3" y="12" width="18" height="8" rx="3"></rect>
+                <line x1="7" y1="8" x2="7" y2="8.01"></line>
+                <line x1="7" y1="16" x2="7" y2="16.01"></line>
+              </svg>
+              CPU : <%= app.cpu %> %</h4>
+            <h4 class="text-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-analytics" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <rect x="3" y="4" width="18" height="12" rx="1"></rect>
+                <path d="M7 20h10"></path>
+                <path d="M9 16v4"></path>
+                <path d="M15 16v4"></path>
+                <path d="M9 12v-4"></path>
+                <path d="M12 12v-1"></path>
+                <path d="M15 12v-2"></path>
+                <path d="M12 12v-1"></path>
+              </svg>
+              Memory : <%= app.memory %></h4>
+            <h4 class="text-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4"></path>
+                <circle cx="18" cy="18" r="4"></circle>
+                <path d="M15 3v4"></path>
+                <path d="M7 3v4"></path>
+                <path d="M3 11h16"></path>
+                <path d="M18 16.496v1.504l1 1"></path>
+              </svg>
+              Uptime : <%= app.uptime %></h4>
+            <% if(app.git_branch){ %>
+            <h4 class="text-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-git-branch" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <circle cx="7" cy="18" r="2" />
+                <circle cx="7" cy="6" r="2" />
+                <circle cx="17" cy="6" r="2" />
+                <line x1="7" y1="8" x2="7" y2="16" />
+                <path d="M9 18h6a2 2 0 0 0 2 -2v-5" />
+                <polyline points="14 14 17 11 20 14" />
+              </svg>
+              Git Branch : <%= app.git_branch %></h4>
+              <% } %>
+              <% if(app.git_commit){ %>
+              <h4 class="text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-git-commit" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <circle cx="12" cy="12" r="3" />
+                  <line x1="12" y1="3" x2="12" y2="9" />
+                  <line x1="12" y1="15" x2="12" y2="21" />
+                </svg>
+                Git Commit : <%= app.git_commit %></h4>
+              <% } %>
+              <% if(app.env_file){ %>
+              <h4 class="text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-text" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                  <line x1="9" y1="9" x2="10" y2="9" />
+                  <line x1="9" y1="13" x2="15" y2="13" />
+                  <line x1="9" y1="17" x2="15" y2="17" />
+                </svg>
+                Env File : 
+                <a  href="#" class="btn btn-sm btn-white" data-bs-toggle="modal" data-bs-target="#modal-scrollable">
+                  Open File
+                </a>
+              </h4>
+              <% } %>
+          </div>
           <div class="card-footer text-center">
             <% if(app.status === "online"){ %>
               <button class="btn btn-sm btn-green" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'reload')">
@@ -160,6 +198,26 @@
   </div>
 </div>
 
+<div class="modal fade" id="modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= app.name %> [.env]</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% if(app.env_file){ %>
+          <pre><code class="language-bash"><%= app.env_file %></code></pre>
+        <% } %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn ml-auto" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/prism.js"></script>
 <script>
 
   function getActiveTabData(page_direction){
