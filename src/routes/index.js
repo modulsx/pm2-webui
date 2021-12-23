@@ -17,7 +17,7 @@ const loginRateLimiter = RateLimit.middleware({
   });
 
 router.get('/', async (ctx) => {
-    return ctx.redirect('/login')
+    return ctx.redirect('./login')
 })
 
 router.get('/login', loginRateLimiter, isAuthenticated, async (ctx) => {
@@ -28,9 +28,9 @@ router.post('/login', loginRateLimiter, isAuthenticated, async (ctx) => {
     const { password } = ctx.request.body;
     if(password && password === config.APP_PASSWORD){
         ctx.session.isAuthenticated = true;
-        return ctx.redirect('/apps')
+        return ctx.redirect('./apps')
     }
-    return ctx.redirect('/login')
+    return ctx.redirect('./login')
 })
 
 router.get('/apps', isAuthenticated, async (ctx) => {
@@ -85,7 +85,7 @@ router.get('/apps/:appName', isAuthenticated, async (ctx) => {
             logs
         });
     }
-    return ctx.redirect('/apps')
+    return ctx.redirect('./apps')
 });
 
 router.get('/api/apps/:appName/logs/:logType/:pageNumber', isAuthenticated, async (ctx) => {
@@ -179,7 +179,7 @@ router.post('/api/apps/:appName/stop', isAuthenticated, async (ctx) => {
 
 router.get('/logout', (ctx)=>{
     ctx.session = null;
-    return ctx.redirect('/login')
+    return ctx.redirect('./login')
 })
 
 module.exports = router;

@@ -2,11 +2,11 @@
 <head>
     <title>PM2 WebUI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/jpg" href="/assets/images/app/favicon.png"/>
+    <link rel="shortcut icon" type="image/jpg" href="./assets/images/app/favicon.png"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@tabler/core@1.0.0-beta2/dist/js/tabler.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/@tabler/core@1.0.0-beta2/dist/css/tabler.min.css">
-    <link href="/assets/css/prism.css" rel="stylesheet" />
+    <link href="./assets/css/prism.css" rel="stylesheet" />
 </head>
 <body>
     <header class="navbar navbar-expand-md navbar-light d-print-none">
@@ -16,19 +16,19 @@
           </button>
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href=".">
-              <img src="/assets/images/app/logo-dark.png" width="110" height="32" alt="PM2 WebUI Logo" class="navbar-brand-image">
+              <img src="./assets/images/app/logo-dark.png" width="110" height="32" alt="PM2 WebUI Logo" class="navbar-brand-image">
             </a>
           </h1>
           <div class="navbar-nav flex-row order-md-last">
             <div class="nav-item dropdown">
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                <span class="avatar avatar-sm" style="background-image: url(/assets/images/app/user.svg)"></span>
+                <span class="avatar avatar-sm" style="background-image: url(./assets/images/app/user.svg)"></span>
                 <div class="d-none d-xl-block ps-2">
                   <div>System Admin</div>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <a href="/logout" class="dropdown-item">
+                <a href="./logout" class="dropdown-item">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
@@ -42,6 +42,6 @@
         </div>
     </header>
     <%- body %>
-    <script src="/assets/js/main.js"></script>
+    <script src="./assets/js/main.js"></script>
 </body>
 </html>

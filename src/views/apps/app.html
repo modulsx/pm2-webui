@@ -217,7 +217,7 @@
   </div>
 </div>
 
-<script src="/assets/js/prism.js"></script>
+<script src="./assets/js/prism.js"></script>
 <script>
 
   function getActiveTabData(page_direction){
@@ -233,7 +233,7 @@
   
 
   async function fetchLogs(log_type, page_number){
-    const response = await fetch(`/api/apps/<%= app.name %>/logs/${log_type}/${page_number}`)
+    const response = await fetch(`./api/apps/<%= app.name %>/logs/${log_type}/${page_number}`)
     const data = await response.json()
     if(data && data.logs){
       return data.logs
