@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const config = require('./config')
 const path = require('path');
 const serve = require('koa-static');

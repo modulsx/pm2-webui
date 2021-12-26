@@ -27,5 +27,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/suryamodulus/pm2-webui"
+  },
+  "bin": {
+    "pm2-webui": "./src/app.js"
   }
 }
