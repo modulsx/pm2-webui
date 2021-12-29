@@ -20,9 +20,8 @@
     "koa-ejs": "^4.3.0",
     "koa-session": "^6.2.0",
     "koa-static": "^5.0.0",
-    "koa2-ratelimit": "^0.9.0",
-    "performance-now": "^2.1.0",
-    "pm2": "^4.5.6"
+    "koa2-ratelimit": "^0.9.1",
+    "pm2": "^5.1.2"
   },
   "repository": {
     "type": "git",
