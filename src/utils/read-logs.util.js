@@ -29,15 +29,4 @@ const readLogsReverse = async (params) => {
   })
 }
 
-async function runTest(){
-  console.time('Performance')
-  const logs = await readLogsReverse({ filePath: '.test_data/mini.log', linesPerRequest: 5, nextKey: 10})
-  console.timeEnd('Performance')
-  console.log('Output : ',logs)
-}
-
-if(process.argv[2] === '--test'){
-  runTest()
-}
-
 module.exports = { readLogsReverse }

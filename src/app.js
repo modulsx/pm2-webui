@@ -1,5 +1,8 @@
 #!/usr/bin/env node
+
 const config = require('./config')
+const { setEnvDataSync } = require('./utils/env.util')
+const { generateRandomString } = require('./utils/random.util')
 const path = require('path');
 const serve = require('koa-static');
 const render = require('koa-ejs');
@@ -8,21 +11,24 @@ const session = require('koa-session');
 const Koa = require('koa');
 
 // Init Application
-if(!config.SESSION_SECRET){
-    console.log("SESSION_SECRET variable not found in environment. Please add it to .env file :)")
+
+if(!config.APP_USERNAME || !config.APP_PASSWORD){
+    console.log("You must first setup admin user. Run command -> npm run setup-admin-user")
     process.exit(2)
 }
 
-if(!config.APP_PASSWORD){
-    console.log("APP_PASSWORD variable not found in environment. Please add it to .env file :)")
-    process.exit(2)
+if(!config.APP_SESSION_SECRET){
+    const randomString = generateRandomString()
+    setEnvDataSync(config.APP_DIR, { APP_SESSION_SECRET: randomString})
+    config.APP_SESSION_SECRET = randomString
 }
 
+// Create App Instance
 const app = new Koa();
 
 // App Settings
 app.proxy = true;
-app.keys = [config.SESSION_SECRET];
+app.keys = [config.APP_SESSION_SECRET];
 
 // Middlewares
 app.use(session(app));

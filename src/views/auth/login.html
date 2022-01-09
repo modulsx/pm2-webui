@@ -14,24 +14,43 @@
     <form class="card card-md" action="/login" method="POST" autocomplete="off">
       <div class="card-body text-center">
         <div class="mb-4">
-          <h2 class="card-title">App Locked</h2>
-          <p class="text-muted">Please enter password to unlock your App</p>
+          <h2 class="card-title">Application Login</h2>
         </div>
-        <div class="mb-4">
+        <div class="mb-3">
           <span class="avatar avatar-xl mb-3" style="background-image: url(/assets/images/app/user.svg)"></span>
-          <h3>System Admin</h3>
+        </div>
+        <div class="mb-3">
+          <input name="username" type="username" class="form-control text-center" placeholder="Username" value="<%= login.username %>" required>
         </div>
         <div class="mb-4">
-          <input name="password" type="password" class="form-control text-center" placeholder="App Password">
+          <input name="password" type="password" class="form-control text-center" placeholder="Password" value="<%= login.password %>" required>
         </div>
-        <div class="mb-4">
+        <div class="mb-3">
           <button class="btn btn-primary w-100" type="submit">
             <!-- Download SVG icon from http://tabler-icons.io/i/lock-open -->
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="5" y="11" width="14" height="10" rx="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M8 11v-5a4 4 0 0 1 8 0"></path></svg>
-            Unlock
+            Login
           </button>
         </div>
-        <div>
+        <% if(login.error){ %>
+          <div class="alert alert-important alert-danger alert-dismissible" role="alert">
+            <div class="d-flex">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+               </svg>
+              </div>
+              <div class="px-2">
+                <%= login.error %>
+              </div>
+            </div>
+            <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+          </div>
+        <% } %>
+        <div hidden>
           <span class="small text-muted">Developed by Surya T</span>
           <a href="//github.com/suryamodulus/pm2-webui" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">

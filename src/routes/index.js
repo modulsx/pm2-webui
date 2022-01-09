@@ -2,11 +2,11 @@ const config = require('../config')
 const RateLimit = require('koa2-ratelimit').RateLimit;
 const router = require('@koa/router')();
 const { listApps, describeApp, reloadApp, restartApp, stopApp } = require('../providers/pm2/api')
-const { bytesToSize, timeSince } = require('../providers/pm2/ux.helper')
+const { validateAdminUser } = require('../services/admin.service')
 const  { readLogsReverse } = require('../utils/read-logs.util')
 const { getCurrentGitBranch, getCurrentGitCommit } = require('../utils/git.util')
 const { getEnvFileContent } = require('../utils/env.util')
-const isAuthenticated = require('../middlewares/auth')
+const { isAuthenticated, checkAuthentication }= require('../middlewares/auth')
 const AnsiConverter = require('ansi-to-html');
 const ansiConvert = new AnsiConverter();
 
@@ -20,17 +20,20 @@ router.get('/', async (ctx) => {
     return ctx.redirect('/login')
 })
 
-router.get('/login', loginRateLimiter, isAuthenticated, async (ctx) => {
-    return await ctx.render('auth/unlock', {layout : false})
+router.get('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
+    return await ctx.render('auth/login', {layout : false, login: { username: '', password:'', error: null }})
 })
 
-router.post('/login', loginRateLimiter, isAuthenticated, async (ctx) => {
-    const { password } = ctx.request.body;
-    if(password && password === config.APP_PASSWORD){
+router.post('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
+    const { username, password } = ctx.request.body;
+    try {
+        await validateAdminUser(username, password)
         ctx.session.isAuthenticated = true;
         return ctx.redirect('/apps')
     }
-    return ctx.redirect('/login')
+    catch(err){
+        return await ctx.render('auth/login', {layout : false, login: { username, password, error: err.message }})
+    }
 })
 
 router.get('/apps', isAuthenticated, async (ctx) => {
@@ -42,16 +45,16 @@ router.get('/apps', isAuthenticated, async (ctx) => {
 
 router.get('/logout', (ctx)=>{
     ctx.session = null;
-    return ctx.redirect('./login')
+    return ctx.redirect('/login')
 })
 
 router.get('/apps/:appName', isAuthenticated, async (ctx) => {
     const { appName } = ctx.params
     let app =  await describeApp(appName)
     if(app){
-        app.git_branch = await getCurrentGitBranch(app.pm2_env_cwd),
-        app.git_commit = await getCurrentGitCommit(app.pm2_env_cwd),
-        app.env_file = await getEnvFileContent(app.pm2_env_cwd)
+        app.git_branch = await getCurrentGitBranch(app.pm2_env_cwd)
+        app.git_commit = await getCurrentGitCommit(app.pm2_env_cwd)
+        // app.env_file = await getEnvFileContent(app.pm2_env_cwd)
         const stdout = await readLogsReverse({filePath: app.pm_out_log_path})
         const stderr = await readLogsReverse({filePath: app.pm_err_log_path})
         stdout.lines = stdout.lines.map(log => {
