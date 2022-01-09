@@ -13,7 +13,7 @@ git clone https://github.com/suryamodulus/pm2-webui
 cd pm2-webui
 npm install
 cp env.example .env
-npm run setup-admin-user // Required for login
+npm run setup-admin-user (Required for login)
 npm start
 ```
 ##### FOR DEVELOPMENT USE
