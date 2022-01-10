@@ -115,5 +115,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Tests Folder
+.tests
+
 # Temp Folder
 .tmp
