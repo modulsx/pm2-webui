@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="container">
   <div class="row row-deck pt-5">
-    <% apps.forEach(function (app) {%>
+    <% services.forEach(function (service) {%>
       <div class="col-md-3 mb-5">
         <div class="card">
           <div class="card-status-top bg-indigo"></div>
-          <a href="/apps/<%= app.name %>" style="text-decoration: none; color: inherit;">
+          <a href="/services/<%= service.name %>" style="text-decoration: none; color: inherit;">
             <div class="card-body">
               <div class="card-title text-primary">
                 <strong>
@@ -15,12 +15,12 @@
                     <line x1="12" y1="12" x2="12" y2="21"></line>
                     <line x1="12" y1="12" x2="4" y2="7.5"></line>
                   </svg>
-                  <%= app.name %>
+                  <%= service.name %>
                 </strong>
-                <% if(app.status === "online"){ %>
-                  <span class="badge bg-green-lt"><%= app.status %></span>
+                <% if(service.status === "online"){ %>
+                  <span class="badge bg-green-lt"><%= service.status %></span>
                 <% } else{ %>  
-                  <span class="badge bg-red-lt"><%= app.status %></span>
+                  <span class="badge bg-red-lt"><%= service.status %></span>
                 <% } %>
               </div>
               <h4 class="text-secondary">
@@ -31,7 +31,8 @@
                   <line x1="7" y1="8" x2="7" y2="8.01"></line>
                   <line x1="7" y1="16" x2="7" y2="16.01"></line>
                 </svg>
-                CPU : <%= app.cpu %> %</h4>
+                CPU : <%= service.cpu %> %
+              </h4>
               <h4 class="text-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-analytics" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -44,7 +45,8 @@
                   <path d="M15 12v-2"></path>
                   <path d="M12 12v-1"></path>
                 </svg>
-                Memory : <%= app.memory %></h4>
+                Memory : <%= service.memory %>
+              </h4>
               <h4 class="text-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -55,12 +57,13 @@
                   <path d="M3 11h16"></path>
                   <path d="M18 16.496v1.504l1 1"></path>
                 </svg>
-                Uptime : <%= app.uptime %></h4>
+                Uptime : <%= service.uptime %>
+              </h4>
             </div>
           </a>
-          <div class="card-footer text-center">
-            <% if(app.status === "online"){ %>
-              <button class="btn btn-sm btn-green" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'reload')">
+          <div class="card-footer text-center px-1">
+            <% if(service.status === "online"){ %>
+              <button class="btn btn-sm btn-green" aria-label="Button" id="pm2-service-reload-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
@@ -68,7 +71,7 @@
                </svg>
                Reload
               </button>
-              <button class="btn btn-sm btn-cyan" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'restart')">
+              <button class="btn btn-sm btn-cyan" aria-label="Button" id="pm2-service-restart-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>
@@ -80,7 +83,7 @@
                </svg>
                Restart
               </button>
-              <button class="btn btn-sm btn-danger" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'stop')">
+              <button class="btn btn-sm btn-danger" aria-label="Button" id="pm2-service-stop-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <circle cx="12" cy="12" r="9"></circle>
@@ -89,7 +92,7 @@
                Stop
               </button>
             <% } else{ %> 
-              <button class="btn btn-sm btn-cyan" aria-label="Button" onclick="pm2AppAction('<%= app.name %>', 'restart')">
+              <button class="btn btn-sm btn-cyan" aria-label="Button" id="pm2-service-restart-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5"></path>
@@ -107,4 +110,5 @@
       </div>
     <% })%>
   </div>
+  <script src="/assets/js/pm2-handler.js"></script>
 </div>

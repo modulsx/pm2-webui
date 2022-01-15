@@ -9,9 +9,14 @@ const config = {
     APP_PASSWORD: process.env.APP_PASSWORD || null,
     SHOW_GIT_INFO: process.env.SHOW_GIT_INFO || false,
     SHOW_ENV_FILE: process.env.SHOW_ENV_FILE || false,
+    DEPLOY_HOOKS_ENABLED: process.env.DEPLOY_HOOKS_ENABLED || false,
+    DEPLOY_HOOKS_JSON_PATH: process.env.DEPLOY_HOOKS_JSON_PATH || null,
     DEFAULTS: {
-        LINES_PER_REQUEST: 50,
         BCRYPT_HASH_ROUNDS: 10,
+    },
+    SHARED: {
+        LINES_PER_REQUEST: 50,
+        APP_BASE_URL: process.env.APP_BASE_URL || '/',
     }
 }
 

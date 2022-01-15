@@ -1,0 +1,35 @@
+.navbar-brand {
+    width: 200px !important;
+}
+
+.navbar-brand a {
+    text-decoration: none;
+    font-size: 18px;
+}
+
+#service-logs-type {
+    height: 26px;
+    padding-top: 0.125rem;
+    padding-bottom: 0.125rem;
+    font-size: .75rem;
+}
+
+.service-logs-content {
+    display: none;
+    overflow-y:scroll;
+    max-height:68vh; 
+    min-width:100%;
+}
+
+.service-logs-content.active {
+    display: block !important;
+}
+
+#service-environment-editor {
+    font-size: 13px;
+    font-weight: 400;
+    width: 100%;
+    overflow-y:scroll;
+    max-height:68vh; 
+    min-width:100%;
+}

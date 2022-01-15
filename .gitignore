@@ -118,5 +118,5 @@ dist
 # Tests Folder
 .tests
 
-# Temp Folder
-.tmp
+# Deployments Folder
+.deployments

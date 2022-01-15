@@ -1,57 +1,57 @@
 const pm2 = require('pm2');
 const { bytesToSize, timeSince } = require('./ux.helper')
 
-function listApps(){
+function listServices(){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
             if (err) {
                 reject(err)
             }
-            pm2.list((err, apps) => {
+            pm2.list((err, services) => {
                 pm2.disconnect()
                 if (err) {
                     reject(err)
                 }
-                apps = apps.map((app) => {
+                services = services.map((service) => {
                     return {
-                        name: app.name,
-                        status: app.pm2_env.status,
-                        cpu: app.monit.cpu,
-                        memory: bytesToSize(app.monit.memory),
-                        uptime: timeSince(app.pm2_env.pm_uptime),
-                        pm_id: app.pm_id
+                        name: service.name,
+                        status: service.pm2_env.status,
+                        cpu: service.monit.cpu,
+                        memory: bytesToSize(service.monit.memory),
+                        uptime: timeSince(service.pm2_env.pm_uptime),
+                        pm_id: service.pm_id
                     }
                 })
-                resolve(apps)
+                resolve(services)
             })
         })
     })
 }
 
-function describeApp(appName){
+function describeService(serviceName){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
             if (err) {
                 reject(err)
             }
-            pm2.describe(appName, (err, apps) => {
+            pm2.describe(serviceName, (err, services) => {
                 pm2.disconnect()
                 if (err) {
                     reject(err)
                 }
-                if(Array.isArray(apps) && apps.length > 0){
-                    const app = {
-                        name: apps[0].name,
-                        status: apps[0].pm2_env.status,
-                        cpu: apps[0].monit.cpu,
-                        memory: bytesToSize(apps[0].monit.memory),
-                        uptime: timeSince(apps[0].pm2_env.pm_uptime),
-                        pm_id: apps[0].pm_id, 
-                        pm_out_log_path: apps[0].pm2_env.pm_out_log_path,
-                        pm_err_log_path: apps[0].pm2_env.pm_err_log_path,
-                        pm2_env_cwd: apps[0].pm2_env.pm_cwd
+                if(Array.isArray(services) && services.length > 0){
+                    const service = {
+                        name: services[0].name,
+                        status: services[0].pm2_env.status,
+                        cpu: services[0].monit.cpu,
+                        memory: bytesToSize(services[0].monit.memory),
+                        uptime: timeSince(services[0].pm2_env.pm_uptime),
+                        pm_id: services[0].pm_id, 
+                        pm_out_log_path: services[0].pm2_env.pm_out_log_path,
+                        pm_err_log_path: services[0].pm2_env.pm_err_log_path,
+                        pm2_env_cwd: services[0].pm2_env.pm_cwd
                     }
-                    resolve(app)
+                    resolve(service)
                 }
                 else{
                     resolve(null)
@@ -61,7 +61,7 @@ function describeApp(appName){
     })
 }
 
-function reloadApp(process){
+function reloadService(process){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
             if (err) {
@@ -78,7 +78,7 @@ function reloadApp(process){
     })
 }
 
-function stopApp(process){
+function stopService(process){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
             if (err) {
@@ -95,7 +95,7 @@ function stopApp(process){
     })
 }
 
-function restartApp(process){
+function restartService(process){
     return new Promise((resolve, reject) => {
         pm2.connect((err) => {
             if (err) {
@@ -113,10 +113,10 @@ function restartApp(process){
 }
 
 module.exports = {
-    listApps,
-    describeApp,
-    reloadApp,
-    stopApp,
-    restartApp
+    listServices,
+    describeService,
+    reloadService,
+    stopService,
+    restartService
 }
 

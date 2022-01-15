@@ -9,6 +9,19 @@ const getEnvFileContent = async (wd)=>{
             if(!err){
                 resolve(data)
             }
+            resolve('')
+        })
+    })
+}
+
+
+const setEnvFileContent = async (wd, envData)=>{
+    return new Promise((resolve, reject) => {
+        const envPath = path.join(wd, '.env')
+        fs.writeFile(envPath , envData, function(err, data){
+            if(!err){
+                resolve(data)
+            }
             resolve(null)
         })
     })
@@ -35,5 +48,6 @@ const setEnvDataSync = (wd, envData) => {
 module.exports = {
     getEnvFileContent,
     getEnvDataSync,
-    setEnvDataSync
+    setEnvDataSync,
+    setEnvFileContent
 }

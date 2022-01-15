@@ -8,6 +8,7 @@ const serve = require('koa-static');
 const render = require('koa-ejs');
 const koaBody = require('koa-body');
 const session = require('koa-session');
+const helmet = require('koa-helmet')
 const Koa = require('koa');
 
 // Init Application
@@ -35,6 +36,8 @@ app.use(session(app));
 
 app.use(koaBody());
 
+app.use(helmet());
+
 app.use(serve(path.join(__dirname, 'public')));
 
 const router = require("./routes");
@@ -45,7 +48,8 @@ render(app, {
     layout: 'base',
     viewExt: 'html',
     cache: false,
-    debug: false
+    debug: false,
+    async: true
 });
 
 app.listen(config.PORT, config.HOST, ()=>{
