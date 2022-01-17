@@ -29,6 +29,7 @@ router.post('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
     try {
         await validateAdminUser(username, password)
         ctx.session.isAuthenticated = true;
+        ctx.session.username = username
         return ctx.redirect('/services')
     }
     catch(err){

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>PM2 WebUI</title>
+    <title><%= APP_NAME %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/jpg" href="/assets/images/app/favicon.png"/>
     <script src="/assets/js/vendors/jquery.min.js"></script>
@@ -18,7 +18,7 @@
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href="/">
               <img src="/assets/images/app/logo.png" height="32" alt="App Logo" class="navbar-brand-image d-inline-block align-text-center">
-              <span class="d-inline-block align-middle">PM2 WebUI</span>
+              <span class="d-inline-block align-middle"><%= APP_NAME %></span>
             </a>
           </h1>
           <div class="navbar-nav flex-row order-md-last">
@@ -26,7 +26,7 @@
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url(/assets/images/app/user.svg)"></span>
                 <div class="d-none d-xl-block ps-2">
-                  <div>System Admin</div>
+                  <div><%= USERNAME %></div>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

@@ -37,6 +37,7 @@ app.proxy = true;
 app.keys = [config.APP_SESSION_SECRET];
 
 // Middlewares
+
 app.use(session(app));
 
 app.use(koaBody());
@@ -44,6 +45,15 @@ app.use(koaBody());
 app.use(helmet());
 
 app.use(serve(path.join(__dirname, 'public')));
+
+app.use((ctx, next) => {
+    ctx.state = ctx.state || {};
+    ctx.state.APP_NAME = config.APP_NAME
+    ctx.state.APP_BASE_URL = config.APP_BASE_URL,
+    ctx.state.LINES_PER_REQUEST =  config.APP_DEFAULTS.LINES_PER_REQUEST
+    ctx.state.USERNAME = ctx.session.username
+    return next();
+});
 
 const router = require("./routes");
 app.use(router.routes());
