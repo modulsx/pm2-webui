@@ -6,8 +6,9 @@ const runDeployment = async (app) => {
     try {
         const cwd = app.path
         logSuccess('Deployment Started', { prefix: app.name, timestamp: true })
-        await execCommand('git reset --hard', { prefix: app.name, cwd })
+        await execCommand(`git fetch ${app.git_branch}`, { prefix: app.name, cwd })
         await execCommand(`git checkout ${app.git_branch}`, { prefix: app.name, cwd })
+        await execCommand(`git reset --hard ${app.git_remote}/${app.git_branch}`, { prefix: app.name, cwd })
         const { stdout: git_pull_stdout }  = await execCommand(`git pull ${app.git_remote} ${app.git_branch}`, { prefix: app.name, cwd })
         if(git_pull_stdout.trim().includes('Already up to date')){
             logSuccess('No changes to deploy. Bye bye!', { prefix: app.name, timestamp: true })

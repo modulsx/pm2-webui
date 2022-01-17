@@ -1,20 +1,11 @@
 const config = require('../config')
 const { logError } = require('../utils/logger.util')
 const { runDeployment } = require('../providers/gitops/runner')
-const { deployHooksSchema } = require('../validations/deploy-hooks.validation')
-
-if(!config.DEPLOY_HOOKS_JSON_PATH){
-    console.error('deploy-hooks.json path is required in .env')
-    process.exit(2)
-}
-const deployHooks = require(config.DEPLOY_HOOKS_JSON_PATH)
-const { error } = deployHooksSchema.validate(deployHooks)
-if(error){
-    logError(`Deploy hooks validation error: ${error.message}`)
-    process.exit(2)
-}
 
 const deployNow = async (appName) => {
+    if(!config.DEPLOYMENTS_ENABLED){
+        logError('Deployments are disabled. Please add DEPLOYMENTS_ENABLED=true to .env')
+    }
     if(!appName){
         logError('Error: missing required argument name|all')
     }

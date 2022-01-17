@@ -3,13 +3,13 @@ const fs = require('fs');
 const config = require('../config')
 
 const readLogsReverse = async (params) => {
-  let { filePath, nextKey: endBytes = null, linesPerRequest = config.SHARED.LINES_PER_REQUEST } = params
+  let { filePath, nextKey: endBytes = null, linesPerRequest = config.APP_DEFAULTS.LINES_PER_REQUEST } = params
   endBytes = parseInt(endBytes)
   linesPerRequest = parseInt(linesPerRequest)
   return new Promise((resolve) => {
     if(!filePath || linesPerRequest < 1 || linesPerRequest === NaN || endBytes === 0){
       console.error('Input params error : ', {filePath, linesPerRequest, endBytes})
-      return resolve({lines: [], nextKey: -1, linesPerRequest: config.SHARED.LINES_PER_REQUEST})
+      return resolve({lines: [], nextKey: -1, linesPerRequest: config.APP_DEFAULTS.LINES_PER_REQUEST})
     }
     const fileSize = fs.statSync(filePath).size
     const end = endBytes && endBytes >= 0? endBytes : fileSize

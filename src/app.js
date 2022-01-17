@@ -3,6 +3,7 @@
 const config = require('./config')
 const { setEnvDataSync } = require('./utils/env.util')
 const { generateRandomString } = require('./utils/random.util')
+const { runDeploymentsSetup } = require('./providers/gitops/deployments')
 const path = require('path');
 const serve = require('koa-static');
 const render = require('koa-ejs');
@@ -15,13 +16,17 @@ const Koa = require('koa');
 
 if(!config.APP_USERNAME || !config.APP_PASSWORD){
     console.log("You must first setup admin user. Run command -> npm run setup-admin-user")
-    process.exit(2)
+    process.exit(1)
 }
 
 if(!config.APP_SESSION_SECRET){
     const randomString = generateRandomString()
     setEnvDataSync(config.APP_DIR, { APP_SESSION_SECRET: randomString})
     config.APP_SESSION_SECRET = randomString
+}
+
+if(config.DEPLOYMENTS_ENABLED){
+    runDeploymentsSetup()
 }
 
 // Create App Instance
