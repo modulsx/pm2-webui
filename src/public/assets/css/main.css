@@ -1,3 +1,8 @@
+.bg-darker {
+    background-color: #1A1E24;
+}
+
+
 .navbar-brand {
     width: 200px !important;
 }

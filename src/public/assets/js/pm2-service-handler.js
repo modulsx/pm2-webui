@@ -48,7 +48,7 @@ function _setLogsData(log_type, logs, action){
     }
 }
 
-$('#fetch-more-service-logs-btn').on('click', async function(){
+$('#fetch-older-service-logs-btn').on('click', async function(){
     const { log_type, next_key  } = _getActiveServiceLogsData()
     if(parseInt(next_key) <= 0){
         console.log('End of Logs')
@@ -59,7 +59,7 @@ $('#fetch-more-service-logs-btn').on('click', async function(){
             _setLogsData(log_type, logs, 'prepend')
         }
         else{
-            console.log('Unable to fetch logs')
+            console.log('Unable to fetch older logs')
         }
     }
 })
@@ -71,7 +71,7 @@ $('#refresh-service-logs-btn').on('click', async function(){
         _setLogsData(log_type, logs, 'refresh')
     }
     else{
-        console.log('Unable to fetch logs')
+        console.log('Unable to refresh logs')
     }
 })
 

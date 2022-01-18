@@ -6,7 +6,7 @@ const runDeployment = async (app) => {
     try {
         const cwd = app.path
         logSuccess('Deployment Started', { prefix: app.name, timestamp: true })
-        await execCommand(`git fetch ${app.git_branch}`, { prefix: app.name, cwd })
+        await execCommand(`git fetch ${app.git_remote} ${app.git_branch}`, { prefix: app.name, cwd })
         await execCommand(`git checkout ${app.git_branch}`, { prefix: app.name, cwd })
         await execCommand(`git reset --hard ${app.git_remote}/${app.git_branch}`, { prefix: app.name, cwd })
         const { stdout: git_pull_stdout }  = await execCommand(`git pull ${app.git_remote} ${app.git_branch}`, { prefix: app.name, cwd })
@@ -22,6 +22,7 @@ const runDeployment = async (app) => {
             }
             const pm2Service = await describeService(app.name)
             if(pm2Service){
+                logInfo('PM2 Service Found', { prefix: app.name, timestamp: true })
                 await execCommand(`pm2 restart ${pm2Service.name}`, { prefix: app.name })
             }
             logSuccess('Deployment completed', { prefix: app.name, timestamp: true })

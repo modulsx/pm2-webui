@@ -1,20 +1,18 @@
-const config = require('../config')
 const RateLimit = require('koa2-ratelimit').RateLimit;
 const router = require('@koa/router')();
 const { listServices, describeService, reloadService, restartService, stopService } = require('../providers/pm2/api')
 const { validateAdminUser } = require('../services/admin.service')
-const  { readLogsReverse } = require('../utils/read-logs.util')
+const { readLogsReverse } = require('../utils/read-logs.util')
 const { getCurrentGitBranch, getCurrentGitCommit } = require('../utils/git.util')
 const { getEnvFileContent, setEnvFileContent } = require('../utils/env.util')
 const { isAuthenticated, checkAuthentication }= require('../middlewares/auth')
-const AnsiConverter = require('ansi-to-html');
-const ansiConvert = new AnsiConverter();
+const { convertAnsiToCss } = require('../utils/ansi.util')
 
 const loginRateLimiter = RateLimit.middleware({
     interval: 2*60*1000, // 2 minutes
     max: 100,
     prefixKey: '/login' // to allow the bdd to Differentiate the endpoint 
-  });
+});
 
 router.get('/', async (ctx) => {
     return ctx.redirect('/login')
@@ -59,11 +57,11 @@ router.get('/services/:serviceName', isAuthenticated, async (ctx) => {
         const stdout = await readLogsReverse({filePath: service.pm_out_log_path})
         const stderr = await readLogsReverse({filePath: service.pm_err_log_path})
         stdout.lines = stdout.lines.map(log => {
-            return  ansiConvert.toHtml(log)
-        }).join('<br/>')
+            return convertAnsiToCss(log)
+        }).join('<br>')
         stderr.lines = stderr.lines.map(log => {
-            return  ansiConvert.toHtml(log)
-        }).join('<br/>')
+            return convertAnsiToCss(log)
+        }).join('<br>')
         return await ctx.render('services/service', {
             service,
             logs: {
@@ -87,8 +85,8 @@ router.get('/api/services/:serviceName/logs/:logType', isAuthenticated, async (c
     const filePath = logType === 'stdout' ? service.pm_out_log_path: service.pm_err_log_path
     let logs = await readLogsReverse({filePath, nextKey})
     logs.lines = logs.lines.map(log => {
-        return  ansiConvert.toHtml(log)
-    }).join('<br/>')
+        return convertAnsiToCss(log)
+    }).join('<br>')
     return ctx.body = {
         logs
     };

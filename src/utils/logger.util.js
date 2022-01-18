@@ -1,7 +1,6 @@
-const kleur = require('kleur');
-const { cyan, green, red, yellow } = kleur
+const { cyan, green, red, yellow } = require('ansicolor');
 
-kleur.enabled = (process.env.NODE_DISABLE_COLORS === true || process.env.NO_COLOR === true) ? false: true
+// kleur.enabled = (process.env.NODE_DISABLE_COLORS === true || process.env.NO_COLOR === true) ? false: true
 
 const timestamp = () => {
     return new Date().toLocaleString([], { hour12: true}).toUpperCase()
@@ -15,6 +14,7 @@ const logCommand = (command, options = {}) => {
     if(options.timestamp){
         output.push(timestamp())
     }
+    output.push(yellow('[Running]'))
     output.push(cyan(command))
     console.log(output.join(' '))
 }

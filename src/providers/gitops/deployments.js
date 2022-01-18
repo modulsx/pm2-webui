@@ -1,6 +1,20 @@
 const fs = require('fs')
 const path = require('path')
 const config = require('../../config')
+const { deployHooksSchema } = require('../../validations/deploy-hooks.validation')
+
+
+const _validateDeploymentsConfigSync = () => {
+    const deploymentsConfigFile = fs.readFileSync(config.DEPLOYMENTS_CONFIG_PATH, 'utf8')
+    const deploymentsConfigJson = JSON.parse(deploymentsConfigFile)
+    return deployHooksSchema.validate(deploymentsConfigJson)
+}
+
+const _getValidatedDeploymentsConfig =  async () => {
+    const deploymentsConfigFile = await fs.promises.readFile(config.DEPLOYMENTS_CONFIG_PATH, 'utf8');
+    const deploymentsConfigJson = JSON.parse(deploymentsConfigFile)
+    return deployHooksSchema.validateAsync(deploymentsConfigJson)
+}
 
 const runDeploymentsSetup = () => {
     if (!fs.existsSync(config.DEPLOYMENTS_BUILDS_DIR)){
@@ -16,13 +30,24 @@ const runDeploymentsSetup = () => {
         fs.mkdirSync(path.dirname(config.DEPLOYMENTS_CONFIG_PATH), { recursive: true })
         fs.writeFileSync(config.DEPLOYMENTS_CONFIG_PATH, JSON.stringify({apps: []}, null, 4))
     }
+    const { error } = _validateDeploymentsConfigSync()
+    if(error){
+        throw new Error(`Deployments Config Validation Error: ${error.message}`)
+    }
 }
 
-const getDeploymentsConfig = async () => {
+const findAllDeploymentApps = async () => {
+    const deployments = await _getValidatedDeploymentsConfig()
+    return deployments.apps
+}
 
+const findOneDeploymentApp = async (appName) => {
+    const deployments = await _getValidatedDeploymentsConfig()
+    return deployments.apps.find(app => app.name === appName)
 }
 
 module.exports = {
     runDeploymentsSetup,
-    getDeploymentsConfig
+    findAllDeploymentApps,
+    findOneDeploymentApp
 }

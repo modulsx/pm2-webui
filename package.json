@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@koa/router": "^10.0.0",
-    "ansi-to-html": "^0.6.14",
+    "ansicolor": "^1.1.100",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "envfile": "^6.17.0",

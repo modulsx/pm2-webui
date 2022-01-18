@@ -37,7 +37,6 @@ app.proxy = true;
 app.keys = [config.APP_SESSION_SECRET];
 
 // Middlewares
-
 app.use(session(app));
 
 app.use(koaBody());
