@@ -1,7 +1,7 @@
 <div class="container">
-  <div class="row row-deck pt-5">
+  <div class="row row-deck pt-4">
     <% services.forEach(function (service) {%>
-      <div class="col-md-3 mb-5">
+      <div class="col-md-4 mb-5">
         <div class="card">
           <div class="card-status-top bg-indigo"></div>
           <a href="/services/<%= service.name %>" style="text-decoration: none; color: inherit;">
@@ -22,6 +22,14 @@
                 <% } else{ %>  
                   <span class="badge bg-red-lt"><%= service.status %></span>
                 <% } %>
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up-right-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <circle cx="12" cy="12" r="9" />
+                    <line x1="15" y1="9" x2="9" y2="15" />
+                    <polyline points="15 15 15 9 9 9" />
+                  </svg>
+                </span>
               </div>
               <h4 class="text-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-server" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -61,7 +69,7 @@
               </h4>
             </div>
           </a>
-          <div class="card-footer text-center px-1">
+          <div class="card-footer text-center">
             <% if(service.status === "online"){ %>
               <button class="btn btn-sm btn-green" aria-label="Button" id="pm2-service-reload-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -110,5 +118,5 @@
       </div>
     <% })%>
   </div>
-  <script src="/assets/js/pm2-handler.js"></script>
+  <script src="/assets/js/pm2-service-handler.js"></script>
 </div>

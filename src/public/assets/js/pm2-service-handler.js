@@ -1,20 +1,20 @@
 $('#pm2-service-reload-btn').on('click', async function(){
-    const service_name = window.location.href.split('/')[4]
-    await fetch(`/api/services/${service_name}/reload`, { method: 'POST'})
-    location.reload();
+    const serviceName = $('#section-data').attr('data-service-name')
+    await fetch(`/api/services/${serviceName}/reload`, { method: 'POST'})
+    window.location.reload();
 })
 
 
 $('#pm2-service-restart-btn').on('click', async function(){
-    const service_name = window.location.href.split('/')[4]
-    await fetch(`/api/services/${service_name}/restart`, { method: 'POST'})
-    location.reload();
+    const serviceName = $('#section-data').attr('data-service-name')
+    await fetch(`/api/services/${serviceName}/restart`, { method: 'POST'})
+    window.location.reload();
 })
 
 $('#pm2-service-stop-btn').on('click', async function(){
-    const service_name = window.location.href.split('/')[4]
-    await fetch(`/api/services/${service_name}/stop`, { method: 'POST'})
-    location.reload();
+    const serviceName = $('#section-data').attr('data-service-name')
+    await fetch(`/api/services/${serviceName}/stop`, { method: 'POST'})
+    window.location.reload();
 })
 
 function _getActiveServiceLogsData(){
@@ -26,8 +26,8 @@ function _getActiveServiceLogsData(){
 }
   
 async function _fetchLogs(log_type, next_key){
-    const service_name = window.location.href.split('/')[4]
-    const response = await fetch(`/api/services/${service_name}/logs/${log_type}${next_key?`?nextKey=${next_key}`: ''}`)
+    const serviceName = $('#section-data').attr('data-service-name')
+    const response = await fetch(`/api/services/${serviceName}/logs/${log_type}${next_key?`?nextKey=${next_key}`: ''}`)
     const data = await response.json()
     if(data && data.logs){
         return data.logs
@@ -82,11 +82,10 @@ $('#service-logs-type').on('change', function() {
 })
 
 $('#save-service-environment-btn').on('click', async function(){
-    const service_name = window.location.href.split('/')[4]
-    console.log(service_name)
-    await fetch(`/api/services/${service_name}/environment`, {
+    const serviceName = $('#section-data').attr('data-service-name')
+    await fetch(`/api/services/${serviceName}/environment`, {
         method: 'POST',
         body: document.EnvEditor.toString()
     })
-    location.reload()
+    window.location.reload();
 })

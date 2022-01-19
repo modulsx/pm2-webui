@@ -22,7 +22,7 @@
 .service-logs-content {
     display: none;
     overflow-y:scroll;
-    max-height:68vh; 
+    max-height:75vh; 
     min-width:100%;
 }
 

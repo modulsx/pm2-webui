@@ -6,7 +6,7 @@ const { readLogsReverse } = require('../utils/read-logs.util')
 const { getCurrentGitBranch, getCurrentGitCommit } = require('../utils/git.util')
 const { getEnvFileContent, setEnvFileContent } = require('../utils/env.util')
 const { isAuthenticated, checkAuthentication }= require('../middlewares/auth')
-const { convertAnsiToCss } = require('../utils/ansi.util')
+const { convertAnsiLogsToCssLines } = require('../utils/ansi.util')
 
 const loginRateLimiter = RateLimit.middleware({
     interval: 2*60*1000, // 2 minutes
@@ -56,12 +56,8 @@ router.get('/services/:serviceName', isAuthenticated, async (ctx) => {
         service.env_data = await getEnvFileContent(service.pm2_env_cwd)
         const stdout = await readLogsReverse({filePath: service.pm_out_log_path})
         const stderr = await readLogsReverse({filePath: service.pm_err_log_path})
-        stdout.lines = stdout.lines.map(log => {
-            return convertAnsiToCss(log)
-        }).join('<br>')
-        stderr.lines = stderr.lines.map(log => {
-            return convertAnsiToCss(log)
-        }).join('<br>')
+        stdout.lines = convertAnsiLogsToCssLines(stdout.lines)
+        stderr.lines = convertAnsiLogsToCssLines(stderr.lines)
         return await ctx.render('services/service', {
             service,
             logs: {
@@ -84,9 +80,7 @@ router.get('/api/services/:serviceName/logs/:logType', isAuthenticated, async (c
     const service =  await describeService(serviceName)
     const filePath = logType === 'stdout' ? service.pm_out_log_path: service.pm_err_log_path
     let logs = await readLogsReverse({filePath, nextKey})
-    logs.lines = logs.lines.map(log => {
-        return convertAnsiToCss(log)
-    }).join('<br>')
+    logs.lines = convertAnsiLogsToCssLines(logs.lines)
     return ctx.body = {
         logs
     };
