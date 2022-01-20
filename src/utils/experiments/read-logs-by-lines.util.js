@@ -1,4 +1,3 @@
-
 var fs = require('fs');
 var es = require('event-stream');
 

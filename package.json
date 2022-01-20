@@ -28,6 +28,7 @@
     "koa-session": "^6.2.0",
     "koa-static": "^5.0.0",
     "koa2-ratelimit": "^0.9.1",
+    "lowdb": "^3.0.0",
     "pm2": "^5.1.2",
     "prompts": "^2.4.2"
   },
@@ -40,5 +41,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   }
 }
