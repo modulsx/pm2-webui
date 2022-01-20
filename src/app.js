@@ -15,7 +15,7 @@ const Koa = require('koa');
 // Init Application
 
 if(!config.APP_USERNAME || !config.APP_PASSWORD){
-    console.log("You must first setup admin user. Run command -> npm run setup-admin-user")
+    console.log("Admin user not found. Run command -> npm run setup-admin-user")
     process.exit(1)
 }
 
