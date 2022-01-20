@@ -1,5 +1,5 @@
-var fs = require('fs');
-var es = require('event-stream');
+const fs = require('fs');
+const es = require('event-stream');
 
 const MAX_RESULTS = 30;
 
