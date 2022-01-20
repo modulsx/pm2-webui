@@ -10,12 +10,6 @@ const _validateDeploymentsConfigSync = () => {
     return deployHooksSchema.validate(deploymentsConfigJson)
 }
 
-const _getValidatedDeploymentsConfig =  async () => {
-    const deploymentsConfigFile = await fs.promises.readFile(config.DEPLOYMENTS_CONFIG_PATH, 'utf8');
-    const deploymentsConfigJson = JSON.parse(deploymentsConfigFile)
-    return deployHooksSchema.validateAsync(deploymentsConfigJson)
-}
-
 const runDeploymentsSetup = () => {
     if (!fs.existsSync(config.DEPLOYMENTS_BUILDS_DIR)){
         fs.mkdirSync(config.DEPLOYMENTS_BUILDS_DIR, { recursive: true });
@@ -36,18 +30,6 @@ const runDeploymentsSetup = () => {
     }
 }
 
-const findAllDeploymentApps = async () => {
-    const deployments = await _getValidatedDeploymentsConfig()
-    return deployments.apps
-}
-
-const findOneDeploymentApp = async (appName) => {
-    const deployments = await _getValidatedDeploymentsConfig()
-    return deployments.apps.find(app => app.name === appName)
-}
-
 module.exports = {
-    runDeploymentsSetup,
-    findAllDeploymentApps,
-    findOneDeploymentApp
+    runDeploymentsSetup
 }

@@ -3,7 +3,7 @@
 const config = require('./config')
 const { setEnvDataSync } = require('./utils/env.util')
 const { generateRandomString } = require('./utils/random.util')
-const { runDeploymentsSetup } = require('./providers/gitops/deployments')
+const { runDeploymentsSetup } = require('./providers/gitops/setup')
 const path = require('path');
 const serve = require('koa-static');
 const render = require('koa-ejs');

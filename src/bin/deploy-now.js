@@ -1,7 +1,7 @@
 const config = require('../config')
 const { logError } = require('../utils/logger.util')
 const { runDeployment } = require('../providers/gitops/runner')
-const { findAllDeploymentApps, findOneDeploymentApp } = require('../providers/gitops/deployments')
+const { findAllDeploymentApps, findOneDeploymentApp } = require('../providers/gitops/api')
 
 const deployNow = async (appName) => {
     try {
