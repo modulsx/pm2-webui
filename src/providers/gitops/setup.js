@@ -1,14 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const config = require('../../config')
-const { deployHooksSchema } = require('../../validations/deploy-hooks.validation')
-
-
-const _validateDeploymentsConfigSync = () => {
-    const deploymentsConfigFile = fs.readFileSync(config.DEPLOYMENTS_CONFIG_PATH, 'utf8')
-    const deploymentsConfigJson = JSON.parse(deploymentsConfigFile)
-    return deployHooksSchema.validate(deploymentsConfigJson)
-}
+const { getValidatedDeploymentsConfigSync } = require('./validations')
 
 const runDeploymentsSetup = () => {
     if (!fs.existsSync(config.DEPLOYMENTS_BUILDS_DIR)){
@@ -24,10 +17,7 @@ const runDeploymentsSetup = () => {
         fs.mkdirSync(path.dirname(config.DEPLOYMENTS_CONFIG_PATH), { recursive: true })
         fs.writeFileSync(config.DEPLOYMENTS_CONFIG_PATH, JSON.stringify({apps: []}, null, 4))
     }
-    const { error } = _validateDeploymentsConfigSync()
-    if(error){
-        throw new Error(`Deployments Config Validation Error: ${error.message}`)
-    }
+    getValidatedDeploymentsConfigSync(config.DEPLOYMENTS_CONFIG_PATH)
 }
 
 module.exports = {

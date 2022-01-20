@@ -13,7 +13,7 @@ const config = {
     DEPLOYMENTS_ENABLED: process.env.DEPLOYMENTS_ENABLED || false,
     DEPLOYMENTS_BUILDS_DIR: process.env.DEPLOYMENTS_BUILDS_DIR || path.join(process.cwd(), '.deployments', 'builds'),
     DEPLOYMENTS_LOGS_DIR: process.env.DEPLOYMENTS_LOGS_DIR || path.join(process.cwd(), '.deployments', 'logs'),
-    DEPLOYMENTS_CONFIG_PATH: process.env.DEPLOYMENTS_CONFIG_PATH || path.join(process.cwd(), '.deployments', 'deployments.config.json'),
+    DEPLOYMENTS_CONFIG_PATH: process.env.DEPLOYMENTS_CONFIG_PATH || path.join(process.cwd(), 'deployments.config.json'),
     APP_DEFAULTS: {
         BCRYPT_HASH_ROUNDS: 10,
         LINES_PER_REQUEST: 50,

@@ -118,5 +118,6 @@ dist
 # Tests Folder
 .tests
 
-# Deployments Folder
+# Deployments
 .deployments
+deployments.config.json
