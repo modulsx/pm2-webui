@@ -2,10 +2,11 @@ const Joi = require('joi');
 const fs = require('fs')
 
 const appSchema = Joi.object({
-    name: Joi.string().required(),
-    type: Joi.string().valid('frontend', 'backend').required(),
-    path: Joi.string().required(),
-    git_remote: Joi.string().required(),
+    name: Joi.string().regex(/^(?=.{4,}$)[a-z0-9-]+$/).required(),
+    runtime: Joi.string().valid('static', 'pm2').required(),
+    working_dir: Joi.string().required(),
+    git_remote_name: Joi.string().required(),
+    git_remote_url: Joi.string().required(),
     git_branch: Joi.string().required(),
     webhook_secret: Joi.string().required(),
     exec_commands: Joi.array().items(Joi.string())
