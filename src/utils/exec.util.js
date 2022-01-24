@@ -1,11 +1,14 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-const { logCommand } = require('./logger.util')
 
 const execCommand = async (command, options = {}) => {
-    const { prefix, ...rest } = options
-    logCommand(command, { prefix, timestamp: true })
-    return exec(command, { ...rest })
+    const { logger, verbose, ...rest } = options
+    logger.command(command)
+    const { stdout, stderr } = await exec(command, { ...rest })
+    if(verbose === true){
+        logger.log(stdout)
+    }
+    return { stdout, stderr }
 }
 
 module.exports = {

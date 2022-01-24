@@ -1,5 +1,4 @@
 const config = require('../config')
-const { logError } = require('../utils/logger.util')
 const { runDeployment } = require('../providers/gitops/runner')
 const { findAllDeploymentApps, findOneDeploymentApp } = require('../providers/gitops/api')
 
@@ -28,7 +27,7 @@ const deployNow = async (appName) => {
         }
     }
     catch(err){
-        logError(`Error : ${err.message || err}`)
+        console.err(err)
     }
 }
 

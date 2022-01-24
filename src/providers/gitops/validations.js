@@ -9,7 +9,9 @@ const appSchema = Joi.object({
     git_remote_url: Joi.string().required(),
     git_branch: Joi.string().required(),
     webhook_secret: Joi.string().required(),
-    exec_commands: Joi.array().items(Joi.string())
+    pre_start: Joi.alternatives().try(Joi.array().items(Joi.string()), Joi.string().allow("")),
+    start: Joi.string().required(),
+    post_start: Joi.alternatives().try(Joi.array().items(Joi.string()), Joi.string().allow("")),
 })
 
 const deployHooksSchema = Joi.object({
