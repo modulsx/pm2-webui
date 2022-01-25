@@ -11,8 +11,7 @@ const config = {
     APP_USERNAME: process.env.APP_USERNAME || null,
     APP_PASSWORD: process.env.APP_PASSWORD || null,
     DEPLOYMENTS_ENABLED: process.env.DEPLOYMENTS_ENABLED || false,
-    DEPLOYMENTS_BUILDS_DIR: process.env.DEPLOYMENTS_BUILDS_DIR || path.join(process.cwd(), '.deployments', 'builds'),
-    DEPLOYMENTS_LOGS_DIR: process.env.DEPLOYMENTS_LOGS_DIR || path.join(process.cwd(), '.deployments', 'logs'),
+    DEPLOYMENTS_LOGS_DIR: process.env.DEPLOYMENTS_LOGS_DIR || path.join(process.cwd(), 'logs'),
     DEPLOYMENTS_CONFIG_PATH: process.env.DEPLOYMENTS_CONFIG_PATH || path.join(process.cwd(), 'deployments.config.json'),
     APP_DEFAULTS: {
         BCRYPT_HASH_ROUNDS: 10,

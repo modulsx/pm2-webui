@@ -7,9 +7,9 @@ const FileLogger = require('../../utils/file-logger.util')
 const runDeployment = async (app, options = {}) => {
     const logger = new FileLogger({appName: app.name, timestamp: true})
     try {
-        const cwd = path.join(app.working_dir, app.name)
+        const cwd = path.join(app.deploy_path, app.name)
         let isNewRepo = false
-        logger.success('Deployment Started')
+        logger.success('*** Deployment Started ***')
         await fs.access(cwd).catch(async (err) => {
             if(err.code === 'ENOENT'){
                 isNewRepo = true
@@ -21,31 +21,32 @@ const runDeployment = async (app, options = {}) => {
         if(isNewRepo){
             await execCommand(`git clone ${app.git_remote_url} ${cwd}`, { logger: logger })
         }
-        await execCommand(`git fetch ${app.git_remote_name} ${app.git_branch}`, { logger: logger, cwd })
+        await execCommand(`git fetch origin ${app.git_branch}`, { logger: logger, cwd })
         await execCommand(`git checkout ${app.git_branch}`, { logger: logger, cwd })
-        await execCommand(`git reset --hard ${app.git_remote_name}/${app.git_branch}`, { logger: logger, cwd })
-        const { stdout: git_pull_stdout }  = await execCommand(`git pull ${app.git_remote_name} ${app.git_branch}`, { logger: logger, cwd })
-        if((git_pull_stdout.trim().includes('Already up to date') && !isNewRepo) || !!options.force){
-            logger.success('No changes to deploy. Bye bye!')
+        await execCommand(`git reset --hard origin/${app.git_branch}`, { logger: logger, cwd })
+        const { stdout: git_pull_stdout }  = await execCommand(`git pull origin ${app.git_branch}`, { logger: logger, cwd })
+        if(git_pull_stdout.trim().toLowerCase().includes('already up to date') && !isNewRepo && !options.force){
+            logger.success('No Changes To Deploy. Bye Bye')
             return 0;
         }
-        if(app.pre_deploy){
-            for(const command of [].concat(app.pre_deploy)){
+        if(app.build_command){
+            for(const command of [].concat(app.build_command)){
                 await execCommand(command , { logger: logger, cwd, verbose: true })
             }
         }
-        await execCommand(app.deploy , { logger: logger, cwd, verbose: true })
-        if(app.post_deploy){
-            for(const command of [].concat(app.post_deploy)){
-                await execCommand(command , { logger: logger, cwd, verbose: true })
+        if(app.runtime === 'pm2'){
+            const pm2Service = await describeService(app.name)
+            if(pm2Service){
+                logger.log('PM2 App Found, Restarting Now')
+                await execCommand(`pm2 restart ${pm2Service.name}`, { logger: logger })
+            }
+            else{
+                logger.log('Starting New PM2 App')
+                const command = app.start_command.replace(/\ /,' -- ')
+                await execCommand(`pm2 start --cwd ${cwd} --name ${app.name} ${command}`, { logger: logger })
             }
         }
-        const pm2Service = await describeService(app.name)
-        if(pm2Service){
-            logger.log('PM2 Service Found')
-            await execCommand(`pm2 restart ${pm2Service.name}`, { logger: logger })
-        }
-        logger.success('Deployment completed')
+        logger.success('*** Deployment Completed ***')
     }
     catch(err){
         logger.error(err)

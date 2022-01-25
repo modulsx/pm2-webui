@@ -4,9 +4,6 @@ const config = require('../../config')
 const { getValidatedDeploymentsConfigSync } = require('./validations')
 
 const runDeploymentsSetup = () => {
-    if (!fs.existsSync(config.DEPLOYMENTS_BUILDS_DIR)){
-        fs.mkdirSync(config.DEPLOYMENTS_BUILDS_DIR, { recursive: true });
-    }
     if (!fs.existsSync(config.DEPLOYMENTS_LOGS_DIR)){
         fs.mkdirSync(config.DEPLOYMENTS_LOGS_DIR, { recursive: true });
     }

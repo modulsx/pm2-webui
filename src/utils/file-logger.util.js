@@ -11,6 +11,11 @@ class FileLogger {
         this.timestamp = timestamp === true ? true: false
         this.#writeStream = fs.createWriteStream(
             join(config.DEPLOYMENTS_LOGS_DIR, `${appName}.log`), { flags: 'a' });
+        this.#logExtraLine()
+    }
+
+    #logExtraLine(){
+        this.#writeStream.write('\n')
     }
 
     #getTimestamp() {
@@ -39,6 +44,7 @@ class FileLogger {
     }
 
     close(){
+        this.#logExtraLine()
         this.#writeStream.end()
     }
 }
