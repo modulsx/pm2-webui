@@ -50,6 +50,7 @@ const runDeployment = async (app, options = {}) => {
     }
     catch(err){
         logger.error(err)
+        // git rev-parse main@{1} - if failed, revert to back previous commit
     }
     logger.close()
 }

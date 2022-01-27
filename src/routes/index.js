@@ -14,6 +14,12 @@ const loginRateLimiter = RateLimit.middleware({
     prefixKey: '/login' // to allow the bdd to Differentiate the endpoint 
 });
 
+const webhookRateLimiter = RateLimit.middleware({
+    interval: 1*60*1000, // 1 minute
+    max: 100,
+    prefixKey: '/deployments/hooks' // to allow the bdd to Differentiate the endpoint 
+});
+
 router.get('/', async (ctx) => {
     return ctx.redirect('/login')
 })
@@ -161,6 +167,20 @@ router.post('/api/services/:serviceName/environment', isAuthenticated, async (ct
         return ctx.body = {
             success: false
         }
+    }
+    catch(err){
+        console.log(err)
+        return ctx.body = {
+            'error':  err
+        }
+    }
+});
+
+router.post('/api/deployments/hooks/:appName', webhookRateLimiter, async (ctx) => {
+    try{
+        console.log(ctx.request.header)
+        console.log(ctx.request.body)
+        return true
     }
     catch(err){
         console.log(err)
