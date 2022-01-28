@@ -8,13 +8,14 @@ const appSchema = Joi.object({
     deploy_path: Joi.string().default(HOME_DIR),
     git_remote_url: Joi.string().required(),
     git_branch: Joi.string().required(),
-    webhook_secret: Joi.string().required(),
+    autodeploy: Joi.boolean().default(false),
+    webhook_secret: Joi.string().when('autodeploy', { is: true, then: Joi.required()}),
     build_command: Joi.alternatives().try(Joi.array().items(Joi.string()), Joi.string().allow("")),
     start_command: Joi.string().when('runtime', { is: 'pm2', then: Joi.required()})
 })
 
 const deployHooksSchema = Joi.object({
-    apps: Joi.array().items(appSchema).required(),
+    apps: Joi.array().unique('name').items(appSchema).required(),
 })
 
 const getValidatedDeploymentsConfig =  async (jsonFile) => {

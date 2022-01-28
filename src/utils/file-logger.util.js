@@ -4,11 +4,13 @@ const { join } = require('path');
 const { cyan, green, red, yellow } = require('ansicolor');
 
 class FileLogger {
-    #writeStream;
+    #writeStream;   
+    #stdio;
 
-    constructor({appName, timestamp }){
+    constructor({appName, timestamp, stdio }){
         this.appName = appName
         this.timestamp = timestamp === true ? true: false
+        this.#stdio = stdio === true? true: false
         this.#writeStream = fs.createWriteStream(
             join(config.DEPLOYMENTS_LOGS_DIR, `${appName}.log`), { flags: 'a' });
         this.#logExtraLine()
@@ -23,8 +25,11 @@ class FileLogger {
     }
 
     #writeLog(...vals){
-        const log = `${this.timestamp? this.#getTimestamp()+ ' ': ''}${green(this.appName)} ${vals.join(' ')}\n`
+        const log = `${this.timestamp? this.#getTimestamp()+ ' ': ''}[${green(this.appName)}] ${vals.join(' ')}\n`
         this.#writeStream.write(log)
+        if(this.#stdio){
+            console.log(log)
+        }
     }
 
     log(data){

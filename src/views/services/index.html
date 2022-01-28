@@ -2,7 +2,7 @@
   <div class="row row-deck pt-4">
     <% services.forEach(function (service) {%>
       <div class="col-md-4 mb-5">
-        <div class="card">
+        <div class="card data-store" data-service-name="<%= service.name %>">
           <div class="card-status-top bg-indigo"></div>
           <a href="/services/<%= service.name %>" style="text-decoration: none; color: inherit;">
             <div class="card-body">
@@ -118,5 +118,6 @@
       </div>
     <% })%>
   </div>
-  <script src="/assets/js/pm2-service-handler.js"></script>
 </div>
+
+<script src="/assets/js/pm2-service-handler.js"></script>

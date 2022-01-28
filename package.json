@@ -8,7 +8,7 @@
     "start": "node .",
     "start:dev": "npx nodemon",
     "setup-admin-user": "node src/bin/setup-admin-user.js",
-    "deploy-now": "node src/bin/deploy-now.js"
+    "deploy-now": "node src/bin/deployman.js"
   },
   "keywords": [],
   "author": "Surya T",

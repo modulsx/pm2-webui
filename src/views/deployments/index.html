@@ -1,0 +1,172 @@
+<div class="container">
+    <div class="mt-4 text-end">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deployments-config-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+        Show Configuration
+      </button>
+    </div>
+    <div class="row pt-4">
+      <% apps.forEach(function (app) {%>
+        <div class="col-12 col-md-6 mb-5">
+          <div class="card data-store" data-app-name="<%= app.name %>">
+            <div class="card-status-top bg-indigo"></div>
+              <div class="card-body">
+                <div class="card-title text-primary">
+                  <h2>
+                    <span>
+                      <svg class="" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-box" width="32" height="32" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline>
+                        <line x1="12" y1="12" x2="20" y2="7.5"></line>
+                        <line x1="12" y1="12" x2="12" y2="21"></line>
+                        <line x1="12" y1="12" x2="4" y2="7.5"></line>
+                      </svg>
+                      <%= app.name %>
+                    </span>
+                    <button class="btn btn-sm btn-orange ms-md-2 deployments-app-trigger-btn" aria-label="Button">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+                      </svg>
+                     <span>Deploy Now</span>
+                    </button>
+                  </h2>
+                </div>
+                <h4 class="text-secondary my-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-server" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <rect x="3" y="4" width="18" height="8" rx="3"></rect>
+                    <rect x="3" y="12" width="18" height="8" rx="3"></rect>
+                    <line x1="7" y1="8" x2="7" y2="8.01"></line>
+                    <line x1="7" y1="16" x2="7" y2="16.01"></line>
+                  </svg>
+                  Runtime : <code class="text-blue"><%= app.runtime %></code>
+                </h4>
+                <h4 class="text-secondary my-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-folder" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />
+                    </svg>
+                    Deploy Path : <code class="text-blue"><%= app.deploy_path %></code>
+                </h4>
+                <h4 class="text-secondary my-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-git" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="16" cy="12" r="1" />
+                      <circle cx="12" cy="8" r="1" />
+                      <circle cx="12" cy="16" r="1" />
+                      <path d="M12 15v-6" />
+                      <path d="M15 11l-2 -2" />
+                      <path d="M11 7l-1.9 -1.9" />
+                      <path d="M10.5 20.4l-6.9 -6.9c-.781 -.781 -.781 -2.219 0 -3l6.9 -6.9c.781 -.781 2.219 -.781 3 0l6.9 6.9c.781 .781 .781 2.219 0 3l-6.9 6.9c-.781 .781 -2.219 .781 -3 0z" />
+                  </svg>
+                  Git Repo URL : <br><code class="text-teal"><%= app.git_remote_url %></code>
+                </h4>
+                <h4 class="text-secondary my-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-git-branch" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="7" cy="18" r="2" />
+                        <circle cx="7" cy="6" r="2" />
+                        <circle cx="17" cy="6" r="2" />
+                        <line x1="7" y1="8" x2="7" y2="16" />
+                        <path d="M9 18h6a2 2 0 0 0 2 -2v-5" />
+                        <polyline points="14 14 17 11 20 14" />
+                    </svg>
+                    Git Branch : <code class="text-teal"><%= app.git_branch %></code>
+                </h4>
+                <h4 class="text-secondary my-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-unlink" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+                      <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+                      <line x1="16" y1="21" x2="16" y2="19" />
+                      <line x1="19" y1="16" x2="21" y2="16" />
+                      <line x1="3" y1="8" x2="5" y2="8" />
+                      <line x1="8" y1="3" x2="8" y2="5" />
+                  </svg>
+                  Autodeploy : <code class="<%= app.autodeploy? 'bg-green': 'bg-red' %> text-white"><%= app.autodeploy %></code>
+                </h4>
+                <div class="collapse" id="deployments-advanced-section-<%= app.name %>">
+                  <% if(app.webhook_url){ %>
+                  <h4 class="text-secondary my-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-unlink" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+                        <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+                        <line x1="16" y1="21" x2="16" y2="19" />
+                        <line x1="19" y1="16" x2="21" y2="16" />
+                        <line x1="3" y1="8" x2="5" y2="8" />
+                        <line x1="8" y1="3" x2="8" y2="5" />
+                    </svg>
+                    Webhook URL : <br><code class="text-secondary"><span class="deployments-app-webhook-url" data-app-base-url="<%= APP_BASE_URL %>"><%= app.webhook_url %></span></code>
+                  </h4>
+                  <% } %>
+                  <% if(app.webhook_secret){ %>
+                  <h4 class="text-secondary my-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <rect x="5" y="11" width="14" height="10" rx="2" />
+                        <circle cx="12" cy="16" r="1" />
+                        <path d="M8 11v-4a4 4 0 0 1 8 0v4" />
+                      </svg>
+                      Webhook Secret : <code class="text-secondary"><%= app.webhook_secret %></code>
+                  </h4>
+                  <% } %>
+                  <% if(app.build_command){ %>
+                  <h4 class="text-secondary my-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    Build Command : <code class="text-red"><%= app.build_command %></code>
+                  </h4>
+                  <% } %>
+                  <% if(app.start_command){ %>
+                  <h4 class="text-secondary my-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bolt" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <polyline points="13 3 13 10 19 10 11 21 11 14 5 14 13 3" />
+                      </svg>
+                      Start Command : <code class="text-red"><%= app.start_command %></code>
+                  </h4>
+                  <% } %>
+                </div>
+                <div class="card-footer text-center pb-0">
+                  <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#deployments-advanced-section-<%= app.name %>" aria-expanded="false" aria-controls="deployments-advanced-section-<%= app.name %>">
+                    Advanced Section
+                  </button>
+                </div>
+              </div>
+          </div>
+        </div>
+      <% })%>
+    </div>
+</div>
+
+<div class="modal fade" id="deployments-config-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Deployments Config</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="deployments-config-editor" class="bg-darker text-white p-3 rounded-2"><%= deployments_config %></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn ml-auto" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Update</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/deployments-handler.js"></script>
+<script src="/assets/js/vendors/prism.js"></script>
+<script type="module" src="/assets/js/deployments-config-editor.js"></script>
+  

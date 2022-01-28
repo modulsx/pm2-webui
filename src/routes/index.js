@@ -7,6 +7,8 @@ const { getCurrentGitBranch, getCurrentGitCommit } = require('../utils/git.util'
 const { getEnvFileContent, setEnvFileContent } = require('../utils/env.util')
 const { isAuthenticated, checkAuthentication }= require('../middlewares/auth')
 const { convertAnsiLogsToCssLines } = require('../utils/ansi.util')
+const { findAllDeploymentApps, findOneDeploymentApp } = require('../providers/gitops/api')
+const { runDeployment } = require('../providers/gitops/runner')
 
 const loginRateLimiter = RateLimit.middleware({
     interval: 2*60*1000, // 2 minutes
@@ -49,7 +51,8 @@ router.get('/logout', (ctx)=>{
 router.get('/services', isAuthenticated, async (ctx) => {
     const services =  await listServices()
     return await ctx.render('services/index', {
-      services
+      services,
+      route: 'services'
     });
 });
 
@@ -69,7 +72,8 @@ router.get('/services/:serviceName', isAuthenticated, async (ctx) => {
             logs: {
                 stdout,
                 stderr
-            }
+            },
+            route: `/services/${service.name}`
         });
     }
     return ctx.redirect('/services')
@@ -176,11 +180,51 @@ router.post('/api/services/:serviceName/environment', isAuthenticated, async (ct
     }
 });
 
+router.get('/deployments', isAuthenticated, async (ctx) => {
+    let apps =  await findAllDeploymentApps() || []
+    apps = apps.map(app => {
+        const { build_command, ...rest } = app
+        const updatedBuildCommand = [].concat(build_command).join(' && ')
+        const webhook_url = `api/deployments/hooks/${app.name}`
+        return { ...rest, build_command: updatedBuildCommand, webhook_url }
+    })
+    const deployments_config =  JSON.stringify({ apps }, null, 4)
+    return await ctx.render('deployments/index', {
+        apps,
+        deployments_config,
+        route: 'deployments'
+    });
+});
+
 router.post('/api/deployments/hooks/:appName', webhookRateLimiter, async (ctx) => {
     try{
         console.log(ctx.request.header)
         console.log(ctx.request.body)
         return true
+    }
+    catch(err){
+        console.log(err)
+        return ctx.body = {
+            'error':  err
+        }
+    }
+});
+
+router.post('/api/deployments/trigger/:appName', webhookRateLimiter, async (ctx) => {
+    const { appName } = ctx.params
+    try{
+        const app = await findOneDeploymentApp(appName)
+        if(!app){
+            return ctx.body = {
+                'error':  'App not found'
+            }
+        }
+        else{
+            runDeployment(app, { force: true})
+            return ctx.body = {
+                message: 'Deployment Started'
+            }
+        }
     }
     catch(err){
         console.log(err)

@@ -5,7 +5,7 @@ const { describeService } = require('../pm2/api')
 const FileLogger = require('../../utils/file-logger.util')
 
 const runDeployment = async (app, options = {}) => {
-    const logger = new FileLogger({appName: app.name, timestamp: true})
+    const logger = new FileLogger({appName: app.name, timestamp: true, stdio: true})
     try {
         const cwd = path.join(app.deploy_path, app.name)
         let isNewRepo = false

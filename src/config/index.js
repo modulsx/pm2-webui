@@ -5,7 +5,7 @@ const config = {
     HOST: process.env.HOST || '127.0.0.1',
     PORT: process.env.PORT || 4343,
     APP_NAME: process.env.APP_NAME || 'PM2 WebUI',
-    APP_BASE_URL: process.env.APP_BASE_URL || null,
+    APP_BASE_URL: process.env.APP_BASE_URL || '',
     APP_DIR: process.cwd(),
     APP_SESSION_SECRET: process.env.APP_SESSION_SECRET || null,
     APP_USERNAME: process.env.APP_USERNAME || null,
