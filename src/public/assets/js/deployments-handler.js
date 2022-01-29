@@ -5,7 +5,9 @@ function getAppName(element){
 $('.deployments-app-trigger-btn').on('click', async function(){
     const appName = getAppName(this)
     await fetch(`/api/deployments/trigger/${appName}`, { method: 'POST'}).finally()
-    window.location.reload();
+    // window.location.reload()
+    // Temp work around for logs view
+    window.location.href = '/services/stackbase';
 })
 
 $(document).ready(function() {
