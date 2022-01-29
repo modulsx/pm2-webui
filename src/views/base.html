@@ -43,6 +43,20 @@
           </div>
           <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="navbar-nav">
+              <li class="nav-item <%= route === 'deployments'? 'active': '' %>">
+                <a class="nav-link" href="/deployments">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-storm" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1" />
+                      <polyline points="13 14 11 18 14 18 12 22" />
+                    </svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Deployments
+                  </span>
+                </a>
+              </li>
               <li class="nav-item <%= route === 'services'? 'active': '' %>">
                 <a class="nav-link" href="/services">
                   <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/star -->
@@ -57,20 +71,6 @@
                   </span>
                   <span class="nav-link-title">
                     Services
-                  </span>
-                </a>
-              </li>
-              <li class="nav-item <%= route === 'deployments'? 'active': '' %>">
-                <a class="nav-link" href="/deployments">
-                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/star -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-storm" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                      <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1" />
-                      <polyline points="13 14 11 18 14 18 12 22" />
-                    </svg>
-                  </span>
-                  <span class="nav-link-title">
-                    Deployments
                   </span>
                 </a>
               </li>

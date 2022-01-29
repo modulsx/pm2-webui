@@ -9,6 +9,7 @@ const { isAuthenticated, checkAuthentication }= require('../middlewares/auth')
 const { convertAnsiLogsToCssLines } = require('../utils/ansi.util')
 const { findAllDeploymentApps, findOneDeploymentApp } = require('../providers/gitops/api')
 const { runDeployment } = require('../providers/gitops/runner')
+const { validateWebhook } = require('../providers/gitops/webhook-handler')
 
 const loginRateLimiter = RateLimit.middleware({
     interval: 2*60*1000, // 2 minutes
@@ -18,7 +19,7 @@ const loginRateLimiter = RateLimit.middleware({
 
 const webhookRateLimiter = RateLimit.middleware({
     interval: 1*60*1000, // 1 minute
-    max: 100,
+    max: 100, // Maximum 100 requests for 1 minute
     prefixKey: '/deployments/hooks' // to allow the bdd to Differentiate the endpoint 
 });
 
@@ -36,7 +37,7 @@ router.post('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
         await validateAdminUser(username, password)
         ctx.session.isAuthenticated = true;
         ctx.session.username = username
-        return ctx.redirect('/services')
+        return ctx.redirect('/deployments')
     }
     catch(err){
         return await ctx.render('auth/login', {layout : false, login: { username, password, error: err.message }})
@@ -196,20 +197,6 @@ router.get('/deployments', isAuthenticated, async (ctx) => {
     });
 });
 
-router.post('/api/deployments/hooks/:appName', webhookRateLimiter, async (ctx) => {
-    try{
-        console.log(ctx.request.header)
-        console.log(ctx.request.body)
-        return true
-    }
-    catch(err){
-        console.log(err)
-        return ctx.body = {
-            'error':  err
-        }
-    }
-});
-
 router.post('/api/deployments/trigger/:appName', webhookRateLimiter, async (ctx) => {
     const { appName } = ctx.params
     try{
@@ -231,6 +218,28 @@ router.post('/api/deployments/trigger/:appName', webhookRateLimiter, async (ctx)
         return ctx.body = {
             'error':  err
         }
+    }
+});
+
+router.post('/api/deployments/hooks/:appName', webhookRateLimiter, async (ctx) => {
+    const { appName } = ctx.params
+    console.log('Recived Webhook For', appName)
+    try{
+        const app = await findOneDeploymentApp(appName)
+        const isValidWebhook = validateWebhook(app, ctx.request.header, ctx.request.body)
+        if(isValidWebhook){
+            console.log('Webhook Validation Successful For', appName)
+            runDeployment(app)
+            return ctx.status = 200
+        }
+        else{
+            console.log('Webhook Validation Failed For', appName)
+            return ctx.status = 400
+        }
+    }
+    catch(err){
+        console.log(err)
+        return ctx.status = 500
     }
 });
 

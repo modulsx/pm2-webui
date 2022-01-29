@@ -1,6 +1,6 @@
 const checkAuthentication = async (ctx, next) => {
     if(ctx.session.isAuthenticated){
-        return ctx.redirect('/services')
+        return ctx.redirect('/deployments')
     }
     await next()
 }

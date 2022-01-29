@@ -25,10 +25,10 @@ const runDeployment = async (app, options = {}) => {
         await execCommand(`git checkout ${app.git_branch}`, { logger: logger, cwd })
         await execCommand(`git reset --hard origin/${app.git_branch}`, { logger: logger, cwd })
         const { stdout: git_pull_stdout }  = await execCommand(`git pull origin ${app.git_branch}`, { logger: logger, cwd })
-        if(git_pull_stdout.trim().toLowerCase().includes('already up to date') && !isNewRepo && !options.force){
-            logger.success('No Changes To Deploy. Bye Bye')
-            return 0;
-        }
+        // if(git_pull_stdout.trim().toLowerCase().includes('already up to date') && !isNewRepo && !options.force){
+        //     logger.success('No Changes To Deploy. Bye Bye')
+        //     return 0;
+        // }
         if(app.build_command){
             for(const command of [].concat(app.build_command)){
                 await execCommand(command , { logger: logger, cwd, verbose: true })
