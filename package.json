@@ -18,7 +18,6 @@
     "ansicolor": "^1.1.100",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
-    "envfile": "^6.17.0",
     "event-stream": "^4.0.1",
     "joi": "^17.5.0",
     "koa": "^2.13.1",

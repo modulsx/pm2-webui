@@ -1,5 +1,5 @@
 const fs = require('fs');
-const envfile = require('envfile')
+const { parse, stringify } = require('./envfile.util')
 const path = require('path')
 
 const getEnvFileContent = async (wd)=>{
@@ -31,7 +31,7 @@ const getEnvDataSync = (envPath) => {
     if (!fs.existsSync(envPath)) { 
         fs.closeSync(fs.openSync(envPath, 'w'))
     } 
-    return envfile.parse(fs.readFileSync(envPath , 'utf-8'))
+    return parse(fs.readFileSync(envPath , 'utf-8'))
 }
 
 const setEnvDataSync = (wd, envData) => {
@@ -41,7 +41,7 @@ const setEnvDataSync = (wd, envData) => {
         ...parseEnvData,
         ...envData
     }
-    fs.writeFileSync(envPath, envfile.stringify(finalData))
+    fs.writeFileSync(envPath, stringify(finalData))
     return true
 }
 
