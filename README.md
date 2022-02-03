@@ -6,6 +6,8 @@ Opensource Alternative to PM2 Plus
 - App Management :white_check_mark:
 - Log Viewer :white_check_mark:
 - Responsive UI :white_check_mark:
+- Manual and Auto(Github webhooks) Deployment
+- Environment Management
 
 ##### USAGE
 ```
@@ -20,6 +22,16 @@ npm start
 ```
 npm run start:dev
 ```
+
+#### TODO
+- [ ] use [jsonfile](https://www.npmjs.com/package/jsonfile) library for config management
+- [ ] replace custom exec util with [execa](https://www.npmjs.com/package/execa)
+- [ ] add form based env management
+- [ ] add log viewer for deployments
+- [ ] add deployment abort functionality
+- [ ] add web terminal
+- [ ] add docker provider
+
 ##### SCREENSHOTS
 ![PM2 Webui Login](/screenshots/login.png?raw=true "PM2 WebUI Login")
 ![PM2 Webui Dashboard](/screenshots/dashboard.png?raw=true "PM2 WebUI Dashboard")
