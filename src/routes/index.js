@@ -54,7 +54,7 @@ router.get('/apps/:appName', isAuthenticated, async (ctx) => {
     if(app){
         app.git_branch = await getCurrentGitBranch(app.pm2_env_cwd)
         app.git_commit = await getCurrentGitCommit(app.pm2_env_cwd)
-        // app.env_file = await getEnvFileContent(app.pm2_env_cwd)
+        app.env_file = await getEnvFileContent(app.pm2_env_cwd)
         const stdout = await readLogsReverse({filePath: app.pm_out_log_path})
         const stderr = await readLogsReverse({filePath: app.pm_err_log_path})
         stdout.lines = stdout.lines.map(log => {
