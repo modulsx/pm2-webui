@@ -1,5 +1,5 @@
 const path = require('path')
-const fs = require('fs/promises')
+const fs = require('fs').promises
 const { execCommand } = require('../../utils/exec.util') 
 const { describeService } = require('../pm2/api')
 const FileLogger = require('../../utils/file-logger.util')
