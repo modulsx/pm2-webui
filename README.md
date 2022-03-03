@@ -25,6 +25,7 @@ npm run start:dev
 
 #### TODO
 - [ ] support for relative paths
+- [ ] use fs-extra for filesystem operations
 - [ ] use [jsonfile](https://www.npmjs.com/package/jsonfile) for config management
 - [ ] replace exec.util with [execa](https://www.npmjs.com/package/execa)
 - [ ] add form based env management
