@@ -11,8 +11,8 @@ $('.deployments-app-trigger-btn').on('click', async function(){
 })
 
 $(document).ready(function() {
-    const element = $('.deployments-app-webhook-url')
     const APP_BASE_URL = $(element).attr('data-app-base-url') || window.origin
-    const WEBHOOK_URL = $(element).text()
-    $(element).text(`${APP_BASE_URL}/${WEBHOOK_URL}`)
+    $(".deployments-app-webhook-url").each(function() {
+        $(this).text(`${APP_BASE_URL}/${$(this).text()}`)
+    });
 });
