@@ -11,8 +11,8 @@ $('.deployments-app-trigger-btn').on('click', async function(){
 })
 
 $(document).ready(function() {
-    const APP_BASE_URL = $(element).attr('data-app-base-url') || window.origin
     $(".deployments-app-webhook-url").each(function() {
+        const APP_BASE_URL = $(this).attr('data-app-base-url') || window.origin
         $(this).text(`${APP_BASE_URL}/${$(this).text()}`)
     });
 });
