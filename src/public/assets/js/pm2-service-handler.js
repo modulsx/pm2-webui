@@ -2,20 +2,19 @@ function getServiceName(element){
     return $(element).closest('.data-store').attr('data-service-name')
 }
 
-$('#pm2-service-reload-btn').on('click', async function(){
+$('.pm2-service-reload-btn').on('click', async function(){
     const serviceName = getServiceName(this)
     await fetch(`/api/services/${serviceName}/reload`, { method: 'POST'})
     window.location.reload();
 })
 
-
-$('#pm2-service-restart-btn').on('click', async function(){
+$('.pm2-service-restart-btn').on('click', async function(){
     const serviceName = getServiceName(this)
     await fetch(`/api/services/${serviceName}/restart`, { method: 'POST'})
     window.location.reload();
 })
 
-$('#pm2-service-stop-btn').on('click', async function(){
+$('.pm2-service-stop-btn').on('click', async function(){
     const serviceName = getServiceName(this)
     await fetch(`/api/services/${serviceName}/stop`, { method: 'POST'})
     window.location.reload();
