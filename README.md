@@ -33,7 +33,8 @@ npm run start:dev
 - [ ] add deployment abort functionality
 - [ ] add deployment triggers
 - [ ] add web terminal
-- [ ] add docker provider
+- [ ] add zero downtime deployment strategies - blue-green, rolling etc
+- [ ] add docker provider*
 
 ##### SCREENSHOTS
 ![PM2 Webui Login](/screenshots/login.png?raw=true "PM2 WebUI Login")
