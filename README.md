@@ -29,6 +29,7 @@ npm run start:dev
 - [ ] use [jsonfile](https://www.npmjs.com/package/jsonfile) for config management
 - [ ] replace exec.util with [execa](https://www.npmjs.com/package/execa)
 - [ ] add form based env management
+- [ ] add realtime logs
 - [ ] add log viewer for deployments
 - [ ] add deployment abort functionality
 - [ ] add deployment triggers
