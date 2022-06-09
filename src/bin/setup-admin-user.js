@@ -32,11 +32,11 @@ const questions = [
       if(!value){
         return 'App password is required'
       }
-      else if(value.length < 4){
-        return 'App username must have mininum 8 characters'
+      else if(value.length < 8){
+        return 'App password must have mininum 8 characters'
       }
       else if(!password_regex.test(value)){
-        return 'App username must contain at least a symbol, upper and lower case letters and a number'
+        return 'App password must contain at least a symbol, upper and lower case letters and a number'
       }
       return true
     }
