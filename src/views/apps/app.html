@@ -180,10 +180,10 @@
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane active" id="stdout" data-next-key="<%= logs.stdout.nextKey %>">
-                <code class="bg-dark" style="display:block; overflow-y:scroll; max-height:50vh !important; max-height:75vh !important; min-width:100%;"><%- logs.stdout.lines %></code>
+                <code id="log-out" class="bg-dark" style="display:block; overflow-y:scroll; max-height:50vh !important; max-height:75vh !important; min-width:100%;"><%- logs.stdout.lines %></code>
               </div>
               <div class="tab-pane" id="stderr" data-next-key="<%= logs.stderr.nextKey %>">
-                <code class="bg-dark" style="display:block; overflow-y:scroll; max-height:50vh !important; max-height:75vh !important; min-width:100%;"><%- logs.stderr.lines %></code>
+                <code id="log-err" class="bg-dark" style="display:block; overflow-y:scroll; max-height:50vh !important; max-height:75vh !important; min-width:100%;"><%- logs.stderr.lines %></code>
               </div>
             </div>
           </div>
@@ -212,8 +212,21 @@
 </div>
 
 <script src="/assets/js/prism.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
-
+  function scrollDown(component){
+    const element = document.getElementById(component);
+    element.scrollTop = element.scrollHeight;
+  }
+const socket = io();
+socket.on("log", (payload) => {
+  if("<%= app.pm_id %>" == payload.process.pm_id){
+    const _data = payload.data.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    document.getElementById(payload.logType).innerHTML += _data;
+    scrollDown("log-out")
+    scrollDown("log-err")
+  }
+})
   function getActiveTabData(){
     const data = {
       log_type: $('.tab-pane.active').attr('id'),

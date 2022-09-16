@@ -26,7 +26,8 @@
     "koa-static": "^5.0.0",
     "koa2-ratelimit": "^0.9.1",
     "pm2": "^5.1.2",
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "socket.io": "^4.5.2"
   },
   "repository": {
     "type": "git",
